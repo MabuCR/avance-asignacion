@@ -15,23 +15,23 @@
     --wm-red: #ea1100;
     --wm-orange: #ff6b00;
   }
-  body { background:#f0f4ff; font-family: system-ui, -apple-system, sans-serif; }
+  body { background:#f0f4ff; font-family: system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
   .card { background:white; border-radius:16px; box-shadow:0 2px 12px rgba(0,83,226,.10); }
-  .kpi-val { font-size:2.2rem; font-weight:800; line-height:1; }
+  .kpi-val { font-size:clamp(1.5rem,6vw,2.2rem); font-weight:800; line-height:1; }
   .kpi-label { font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.05em; }
   .badge { display:inline-block; border-radius:999px; padding:2px 10px; font-size:.7rem; font-weight:700; }
-  .progress-bar { height:12px; border-radius:999px; background:#e5e7eb; overflow:hidden; }
+  .progress-bar { height:10px; border-radius:999px; background:#e5e7eb; overflow:hidden; }
   .progress-fill { height:100%; border-radius:999px; transition:width .8s ease; }
-  .tab-btn { padding:8px 18px; border-radius:999px; font-size:.8rem; font-weight:600; cursor:pointer; transition:all .2s; }
+  .tab-btn { flex-shrink:0; padding:0 20px; height:44px; min-height:44px; border-radius:999px; font-size:.82rem; font-weight:600; cursor:pointer; transition:all .2s; white-space:nowrap; border:none; }
   .tab-btn.active { background:var(--wm-blue); color:white; }
   .tab-btn:not(.active) { background:white; color:#374151; border:1.5px solid #d1d5db; }
   .tab-panel { display:none; }
   .tab-panel.active { display:block; }
-  .store-row { border-bottom:1px solid #f3f4f6; padding:10px 0; }
+  .store-row { border-bottom:1px solid #f3f4f6; padding:12px 0; }
   .store-row:last-child { border-bottom:none; }
   .pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
-  .chart-wrap { position:relative; height:220px; }
+  .chart-wrap { position:relative; height:220px; width:100%; }
 </style>
 </head>
 <body class="min-h-screen pb-8">
@@ -51,11 +51,11 @@
 <div class="text-center py-2 text-xs text-gray-500" id="updated-label"></div>
 
 <!-- TABS -->
-<div class="flex gap-2 px-4 pb-3 overflow-x-auto">
-  <button class="tab-btn active" onclick="showTab('resumen')">Resumen</button>
-  <button class="tab-btn" onclick="showTab('despacho')">Despacho</button>
-  <button class="tab-btn" onclick="showTab('bloqueadas')">Bloqueadas</button>
-  <button class="tab-btn" onclick="showTab('mixtas')">Mixtas</button>
+<div style="display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-wrap:nowrap;">
+  <button class="tab-btn active" onclick="showTab(this,'resumen')">Resumen</button>
+  <button class="tab-btn" onclick="showTab(this,'despacho')">Despacho</button>
+  <button class="tab-btn" onclick="showTab(this,'bloqueadas')">Bloqueadas</button>
+  <button class="tab-btn" onclick="showTab(this,'mixtas')">Mixtas</button>
 </div>
 
 <!-- ═══ TAB RESUMEN ══════════════════════════════════════════════════════════ -->
@@ -210,11 +210,12 @@ const fmt = n => Number(n).toLocaleString('es-CR');
 const pct = (a,b) => b ? Math.round(a/b*100) : 0;
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
-function showTab(name) {
+function showTab(btn, name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   $('tab-'+name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 // ── Render ───────────────────────────────────────────────────────────────────
@@ -282,7 +283,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ['#fb923c','Mixtas',d.mixtas_total],
   ].map(([c,l,v]) =>
     `<div class="flex items-center gap-2">
-       <span style="width:12px;height:12px;border-radius:3px;background:${c};flex-shrink:0;display:inline-block;"></span>
+       <span style="width:12px;height:10px;border-radius:3px;background:${c};flex-shrink:0;display:inline-block;"></span>
        <span class="text-xs text-gray-600">${l}</span>
        <span class="ml-auto text-xs font-bold text-gray-800">${fmt(v)}</span>
      </div>`
