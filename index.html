@@ -7,41 +7,36 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
-  body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
-  :root{--blue:#0053e2;--yellow:#ffc220;--green:#2a8703;--red:#ea1100;--orange:#e65c00}
-  .card{background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(0,83,226,.09)}
-  .kpi-val{font-size:clamp(1.6rem,7vw,2.4rem);font-weight:800;line-height:1}
-  .kpi-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b7280}
-  .bar{height:8px;border-radius:99px;background:#e5e7eb;overflow:hidden}
-  .bar-fill{height:100%;border-radius:99px;transition:width .7s ease}
-  /* Scroll horizontal sin scrollbar */
-  .hscroll{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;
-            scrollbar-width:none;padding:0 16px 10px;flex-wrap:nowrap}
-  .hscroll::-webkit-scrollbar{display:none}
-  /* Day pills */
-  .day-pill{flex-shrink:0;height:40px;padding:0 16px;border-radius:99px;font-size:.78rem;
-             font-weight:700;cursor:pointer;white-space:nowrap;border:1.5px solid #d1d5db;
-             background:#fff;color:#374151;transition:all .18s}
-  .day-pill.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-  /* Tab pills */
-  .tab-pill{flex-shrink:0;height:42px;padding:0 18px;border-radius:99px;font-size:.8rem;
-             font-weight:700;cursor:pointer;white-space:nowrap;border:none;transition:all .18s}
-  .tab-pill.active{background:var(--blue);color:#fff}
-  .tab-pill:not(.active){background:#fff;color:#374151;border:1.5px solid #d1d5db}
-  .tab-panel{display:none}.tab-panel.active{display:block}
-  .row{border-bottom:1px solid #f3f4f6;padding:11px 0}
-  .row:last-child{border-bottom:none}
-  .badge{display:inline-block;border-radius:99px;padding:2px 9px;font-size:.68rem;font-weight:700}
-  .chart-wrap{position:relative;height:210px;width:100%}
-  .pulse{animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
-  .warn{background:linear-gradient(135deg,#fff7ed,#fff);border-left:4px solid var(--yellow)}
-  .danger{background:linear-gradient(135deg,#fef2f2,#fff);border-left:4px solid var(--red)}
+*{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+:root{--blue:#0053e2;--yellow:#ffc220;--green:#2a8703;--red:#ea1100;--orange:#e65c00}
+.card{background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(0,83,226,.09)}
+.kpi-val{font-size:clamp(1.6rem,7vw,2.4rem);font-weight:800;line-height:1}
+.kpi-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#6b7280}
+.bar{height:8px;border-radius:99px;background:#e5e7eb;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px;transition:width .7s ease}
+.hscroll{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+          scrollbar-width:none;padding:0 16px 10px;flex-wrap:nowrap}
+.hscroll::-webkit-scrollbar{display:none}
+.day-pill{flex-shrink:0;height:40px;padding:0 16px;border-radius:99px;font-size:.78rem;
+           font-weight:700;cursor:pointer;white-space:nowrap;background:#fff;
+           color:#374151;border:1.5px solid #d1d5db;transition:all .18s}
+.day-pill.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.day-pill.warn:not(.active){border-color:#f59e0b;color:#92400e}
+.tab-pill{flex-shrink:0;height:42px;padding:0 18px;border-radius:99px;font-size:.8rem;
+           font-weight:700;cursor:pointer;white-space:nowrap;border:none;transition:all .18s}
+.tab-pill.active{background:var(--blue);color:#fff}
+.tab-pill:not(.active){background:#fff;color:#374151;border:1.5px solid #d1d5db}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.row{border-bottom:1px solid #f3f4f6;padding:11px 0}
+.row:last-child{border-bottom:none}
+.bdg{display:inline-block;border-radius:99px;padding:2px 9px;font-size:.68rem;font-weight:700}
+.chart-wrap{position:relative;height:210px;width:100%}
+.pct-card{border-radius:12px;padding:12px 14px;margin-bottom:8px}
 </style>
 </head>
 <body class="pb-10">
-<script>const DATA={"updated": "30/04/2026 10:40 AM", "semana": "Semana 25 Abr — 01 May 2026", "total": {"tiendas": 1317, "con_placa": 1189, "sin_placa": 128, "placas": 1060, "bloqueadas": 121, "mixtas": 259}, "dias": [{"key": "SÁBADO_2026-04-25", "label": "Sáb 25 Abr", "fecha": "2026-04-25", "dia": "SÁBADO", "total": 82, "con_placa": 82, "sin_placa": 0, "placas": 71, "bloqueadas": 0, "mixtas": 20, "pct_placa": 100.0, "por_tipo": {"DXD": {"total": 82, "con_placa": 82, "sin_placa": 0, "placas": 71}}, "top_placas": [{"placa": "567", "tiendas": 2, "pdvs": [718, 700]}, {"placa": "622", "tiendas": 2, "pdvs": [3072, 718]}, {"placa": "485", "tiendas": 2, "pdvs": [3033, 4064]}, {"placa": "165366", "tiendas": 2, "pdvs": [3071, 3116]}, {"placa": "416", "tiendas": 2, "pdvs": [4470, 4004]}, {"placa": "637", "tiendas": 2, "pdvs": [4325, 3134]}, {"placa": "10904", "tiendas": 2, "pdvs": [968, 919]}, {"placa": "812", "tiendas": 2, "pdvs": [3118, 3037]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 3072, "nombre": "PALI DESAMPARADOS", "tipo_unit": "BX", "placa": 622}, {"pdv": 718, "nombre": "MAXI PALI ASERRI", "tipo_unit": "BX", "placa": 622}, {"pdv": 3033, "nombre": "MXM CORONADO", "tipo_unit": "BX", "placa": 485}, {"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "BX", "placa": 485}, {"pdv": 3071, "nombre": "PALI CALLE BLANCOS", "tipo_unit": "TX", "placa": 165366}, {"pdv": 3116, "nombre": "PALI TIBAS EL PARQUE", "tipo_unit": "TX", "placa": 165366}, {"pdv": 4470, "nombre": "PALI PALMARES CENTRO", "tipo_unit": "BX", "placa": 416}, {"pdv": 4004, "nombre": "MAXI PALI GRECIA", "tipo_unit": "BX", "placa": 416}, {"pdv": 4325, "nombre": "MXM LINCOL", "tipo_unit": "BX", "placa": 637}, {"pdv": 3134, "nombre": "PALI LOS LAGOS", "tipo_unit": "BX", "placa": 637}, {"pdv": 968, "nombre": "PALI TURRUCARES", "tipo_unit": "MX", "placa": 10904}, {"pdv": 919, "nombre": "PALI LA GUACIMA", "tipo_unit": "MX", "placa": 10904}, {"pdv": 3118, "nombre": "PALI EL ALTO", "tipo_unit": "BX", "placa": 812}, {"pdv": 3037, "nombre": "MXM SAN PABLO", "tipo_unit": "BX", "placa": 812}, {"pdv": 3133, "nombre": "PALI SAN FELIPE", "tipo_unit": "BX", "placa": 10528}, {"pdv": 4435, "nombre": "MAXI PALI SAN RAFAEL DE ALAJUELA", "tipo_unit": "BX", "placa": 10528}, {"pdv": 4202, "nombre": "PALI MATA DE PLATANO", "tipo_unit": "F45X", "placa": 10506}, {"pdv": 3145, "nombre": "PALI SAN RAFAEL DE HEREDIA", "tipo_unit": "F45X", "placa": 10506}, {"pdv": 984, "nombre": "PALI LAS CAÑAS", "tipo_unit": "CX", "placa": 151786}, {"pdv": 990, "nombre": "PALI SANTA ROSA", "tipo_unit": "CX", "placa": 151786}]}, {"key": "DOMINGO_2026-04-25", "label": "Dom 25 Abr", "fecha": "2026-04-25", "dia": "DOMINGO", "total": 128, "con_placa": 128, "sin_placa": 0, "placas": 114, "bloqueadas": 0, "mixtas": 28, "pct_placa": 100.0, "por_tipo": {"DXS": {"total": 128, "con_placa": 128, "sin_placa": 0, "placas": 114}}, "top_placas": [{"placa": "667", "tiendas": 2, "pdvs": [4195, 4081]}, {"placa": "4636", "tiendas": 2, "pdvs": [934, 4052]}, {"placa": "165081", "tiendas": 2, "pdvs": [1117, 3067]}, {"placa": "165004", "tiendas": 2, "pdvs": [3107, 1086]}, {"placa": "172358", "tiendas": 2, "pdvs": [1041, 4444]}, {"placa": "12105", "tiendas": 2, "pdvs": [3052, 4157]}, {"placa": "467", "tiendas": 2, "pdvs": [4283, 3900]}, {"placa": "163923", "tiendas": 2, "pdvs": [4244, 930]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 4195, "nombre": "MAXI PALI CAÑAS", "tipo_unit": "BX", "placa": 667}, {"pdv": 4081, "nombre": "PALI BAGACES", "tipo_unit": "BX", "placa": 667}, {"pdv": 934, "nombre": "PALI GUAYABO", "tipo_unit": "MX", "placa": 4636}, {"pdv": 4052, "nombre": "PALI SARDINAL", "tipo_unit": "MX", "placa": 4636}, {"pdv": 1117, "nombre": "PALI CARTAGO ESTE", "tipo_unit": "CX", "placa": 165081}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "CX", "placa": 165081}, {"pdv": 3107, "nombre": "PALI CIUDAD COLON", "tipo_unit": "CX", "placa": 165004}, {"pdv": 1086, "nombre": "PALI PALMICHAL", "tipo_unit": "CX", "placa": 165004}, {"pdv": 1041, "nombre": "PALI GUADALUPE CENTRO", "tipo_unit": "CX", "placa": 172358}, {"pdv": 4444, "nombre": "PALI SAN PEDRO DE BARVA", "tipo_unit": "CX", "placa": 172358}, {"pdv": 3052, "nombre": "PALI SAN SEBASTIAN", "tipo_unit": "MX", "placa": 12105}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo_unit": "MX", "placa": 12105}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo_unit": "F45X", "placa": 467}, {"pdv": 3900, "nombre": "MAXI PALI EL CRUCE", "tipo_unit": "F45X", "placa": 467}, {"pdv": 4244, "nombre": "PALI BARRIO MEXICO", "tipo_unit": "CX", "placa": 163923}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS", "tipo_unit": "CX", "placa": 163923}, {"pdv": 3098, "nombre": "PALI ASERRI ABAJO", "tipo_unit": "BX", "placa": 642}, {"pdv": 4430, "nombre": "MXM BARRIO SAN JOSE", "tipo_unit": "BX", "placa": 642}, {"pdv": 4083, "nombre": "PALI TARRAZU", "tipo_unit": "F45X", "placa": 476}, {"pdv": 925, "nombre": "PALI LOS MOLINOS", "tipo_unit": "F45X", "placa": 476}, {"pdv": 4047, "nombre": "PALI DESAMPARADOS DE ALAJUELA", "tipo_unit": "F45X", "placa": 2011}, {"pdv": 3079, "nombre": "PALI COLIMA", "tipo_unit": "F45X", "placa": 2011}, {"pdv": 1030, "nombre": "PALI LA CANDELARIA", "tipo_unit": "CX", "placa": 177230}, {"pdv": 980, "nombre": "PALI EL PORO", "tipo_unit": "CX", "placa": 177230}, {"pdv": 4118, "nombre": "PALI SAN PABLO", "tipo_unit": "MX", "placa": 2030}, {"pdv": 4281, "nombre": "PALI MERCEDES SUR", "tipo_unit": "MX", "placa": 2030}, {"pdv": 1062, "nombre": "PALI MONTEVERDE", "tipo_unit": "PROTOX", "placa": 10549}, {"pdv": 1118, "nombre": "Pali Liberia Estadio", "tipo_unit": "PROTOX", "placa": 10549}]}, {"key": "LUNES_2026-04-25", "label": "Lun 25 Abr", "fecha": "2026-04-25", "dia": "LUNES", "total": 50, "con_placa": 50, "sin_placa": 0, "placas": 45, "bloqueadas": 0, "mixtas": 10, "pct_placa": 100.0, "por_tipo": {"DXS": {"total": 50, "con_placa": 50, "sin_placa": 0, "placas": 45}}, "top_placas": [{"placa": "10401", "tiendas": 2, "pdvs": [1036, 3064]}, {"placa": "174966", "tiendas": 2, "pdvs": [3040, 1078]}, {"placa": "348", "tiendas": 2, "pdvs": [4060, 1089]}, {"placa": "816", "tiendas": 2, "pdvs": [4026, 4191]}, {"placa": "157215", "tiendas": 2, "pdvs": [3062, 834]}, {"placa": "10407", "tiendas": 1, "pdvs": [4320]}, {"placa": "10475", "tiendas": 1, "pdvs": [3064]}, {"placa": "10455", "tiendas": 1, "pdvs": [3064]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 1036, "nombre": "PALI GENERAL VIEJO", "tipo_unit": "PROTOX", "placa": 10401}, {"pdv": 3064, "nombre": "PALI SAN ISIDRO", "tipo_unit": "PROTOX", "placa": 10401}, {"pdv": 3040, "nombre": "MXM JACO", "tipo_unit": "TX", "placa": 174966}, {"pdv": 1078, "nombre": "PALI COYOLAR", "tipo_unit": "TX", "placa": 174966}, {"pdv": 4060, "nombre": "PALI LA CRUZ", "tipo_unit": "F45X", "placa": 348}, {"pdv": 1089, "nombre": "MXM LIBERIA", "tipo_unit": "F45X", "placa": 348}, {"pdv": 4026, "nombre": "PALI UPALA", "tipo_unit": "BX", "placa": 816}, {"pdv": 4191, "nombre": "PALI LA FORTUNA", "tipo_unit": "BX", "placa": 816}, {"pdv": 3062, "nombre": "PALI ROHMOSER", "tipo_unit": "CX", "placa": 157215}, {"pdv": 834, "nombre": "PALI AMELIAS", "tipo_unit": "CX", "placa": 157215}]}, {"key": "LUNES_2026-04-27", "label": "Lun 27 Abr", "fecha": "2026-04-27", "dia": "LUNES", "total": 109, "con_placa": 109, "sin_placa": 0, "placas": 96, "bloqueadas": 0, "mixtas": 10, "pct_placa": 100.0, "por_tipo": {"DXD": {"total": 109, "con_placa": 109, "sin_placa": 0, "placas": 96}}, "top_placas": [{"placa": "588", "tiendas": 2, "pdvs": [4064, 4432]}, {"placa": "185662", "tiendas": 2, "pdvs": [3021, 1016]}, {"placa": "819", "tiendas": 2, "pdvs": [3028, 3121]}, {"placa": "653", "tiendas": 2, "pdvs": [3074, 3033]}, {"placa": "619", "tiendas": 2, "pdvs": [4429, 4004]}, {"placa": "10409", "tiendas": 2, "pdvs": [1095, 3059]}, {"placa": "2006", "tiendas": 2, "pdvs": [3056, 4318]}, {"placa": "478", "tiendas": 2, "pdvs": [3086, 4107]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "53X", "placa": 588}, {"pdv": 4432, "nombre": "MAXI PALI OREAMUNO", "tipo_unit": "53X", "placa": 588}, {"pdv": 3021, "nombre": "PALI CUESTA DE MORAS", "tipo_unit": "CX", "placa": 185662}, {"pdv": 1016, "nombre": "PALI BETANIA", "tipo_unit": "CX", "placa": 185662}, {"pdv": 3028, "nombre": "MXM SAN GERARDO", "tipo_unit": "BX", "placa": 819}, {"pdv": 3121, "nombre": "PALI BARRIO SAN JOSE", "tipo_unit": "BX", "placa": 819}, {"pdv": 3074, "nombre": "PALI SAN FRANCISCO", "tipo_unit": "53X", "placa": 653}, {"pdv": 3033, "nombre": "MXM CORONADO", "tipo_unit": "53X", "placa": 653}, {"pdv": 4429, "nombre": "MXM SAN RAMON", "tipo_unit": "BX", "placa": 619}, {"pdv": 4004, "nombre": "MAXI PALI GRECIA", "tipo_unit": "BX", "placa": 619}]}, {"key": "MARTES_2026-04-27", "label": "Mar 27 Abr", "fecha": "2026-04-27", "dia": "MARTES", "total": 173, "con_placa": 172, "sin_placa": 1, "placas": 154, "bloqueadas": 0, "mixtas": 36, "pct_placa": 99.4, "por_tipo": {"DXS": {"total": 173, "con_placa": 172, "sin_placa": 1, "placas": 154}}, "top_placas": [{"placa": "10454", "tiendas": 2, "pdvs": [4088, 4020]}, {"placa": "10405", "tiendas": 2, "pdvs": [1055, 1028]}, {"placa": "10906", "tiendas": 2, "pdvs": [950, 3076]}, {"placa": "165081", "tiendas": 2, "pdvs": [3113, 3067]}, {"placa": "4632", "tiendas": 2, "pdvs": [4467, 738]}, {"placa": "2023", "tiendas": 2, "pdvs": [4486, 4215]}, {"placa": "10403", "tiendas": 2, "pdvs": [933, 1024]}, {"placa": "469", "tiendas": 2, "pdvs": [3085, 4166]}], "sin_placa_list": [{"pdv": 986, "nombre": "PALI CD COYOl", "tipo_unit": "-", "tipo": "DXS"}], "bloq_list": [], "mixtas_list": [{"pdv": 4088, "nombre": "PALI POCOSOL", "tipo_unit": "MX", "placa": 10454}, {"pdv": 4020, "nombre": "PALI LOS CHILES", "tipo_unit": "MX", "placa": 10454}, {"pdv": 1055, "nombre": "PALI CIUDAD QUESADA NORTE", "tipo_unit": "PROTOX", "placa": 10405}, {"pdv": 1028, "nombre": "PALI LOS ANGELES FORTUNA", "tipo_unit": "PROTOX", "placa": 10405}, {"pdv": 950, "nombre": "PALI SANTA MARIA DE DOTA", "tipo_unit": "MX", "placa": 10906}, {"pdv": 3076, "nombre": "PALI TURRIALBA", "tipo_unit": "MX", "placa": 10906}, {"pdv": 3113, "nombre": "PALI DESAMPARADOS CENTRO", "tipo_unit": "CX", "placa": 165081}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "CX", "placa": 165081}, {"pdv": 4467, "nombre": "PALI SAN DIEGO", "tipo_unit": "MX", "placa": 4632}, {"pdv": 738, "nombre": "PALI TOBOSI", "tipo_unit": "MX", "placa": 4632}, {"pdv": 4486, "nombre": "MAXI PALI PARRITA", "tipo_unit": "F45X", "placa": 2023}, {"pdv": 4215, "nombre": "MAXI PALI QUEPOS", "tipo_unit": "F45X", "placa": 2023}, {"pdv": 933, "nombre": "PALI DULCE NOMBRE", "tipo_unit": "PROTOX", "placa": 10403}, {"pdv": 1024, "nombre": "Pali Carpintera", "tipo_unit": "PROTOX", "placa": 10403}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo_unit": "BX", "placa": 469}, {"pdv": 4166, "nombre": "PALI MIRAMAR", "tipo_unit": "BX", "placa": 469}, {"pdv": 776, "nombre": "MXM TEJAR", "tipo_unit": "BX", "placa": 12021}, {"pdv": 4085, "nombre": "PALI CONCEPCION TRES RIOS", "tipo_unit": "BX", "placa": 12021}, {"pdv": 4193, "nombre": "PALI SAN RAFAEL DE MONTES", "tipo_unit": "MX", "placa": 2019}, {"pdv": 4281, "nombre": "PALI MERCEDES SUR", "tipo_unit": "MX", "placa": 2019}, {"pdv": 3032, "nombre": "MXM SABANILLA", "tipo_unit": "BX", "placa": 423}, {"pdv": 3090, "nombre": "PALI BELEN", "tipo_unit": "BX", "placa": 423}, {"pdv": 4230, "nombre": "PALI GRANADILLA", "tipo_unit": "CX", "placa": 164125}, {"pdv": 4229, "nombre": "PALI BARRIO LA SOLEDAD", "tipo_unit": "CX", "placa": 164125}, {"pdv": 4028, "nombre": "PALI TIRRASES", "tipo_unit": "BX", "placa": 12210}, {"pdv": 4330, "nombre": "MXM GUACHIPELIN", "tipo_unit": "BX", "placa": 12210}, {"pdv": 3092, "nombre": "PALI SAN MIGUEL DE DESAMPARADOS", "tipo_unit": "CX", "placa": 170260}, {"pdv": 3115, "nombre": "PALI HEREDIA CENTRO", "tipo_unit": "CX", "placa": 170260}, {"pdv": 4430, "nombre": "MXM BARRIO SAN JOSE", "tipo_unit": "BX", "placa": 2032}, {"pdv": 939, "nombre": "MAXI PALI ALAJUELA ESTE", "tipo_unit": "BX", "placa": 2032}, {"pdv": 4194, "nombre": "MAXI PALI TIBAS", "tipo_unit": "F45X", "placa": 10506}, {"pdv": 4027, "nombre": "PALI SAN RAFAEL DE ALAJUELA", "tipo_unit": "F45X", "placa": 10506}, {"pdv": 3138, "nombre": "PALI LOMAS DEL RIO", "tipo_unit": "BX", "placa": 809}, {"pdv": 3079, "nombre": "PALI COLIMA", "tipo_unit": "BX", "placa": 809}, {"pdv": 3091, "nombre": "PALI BARVA", "tipo_unit": "MX", "placa": 10515}, {"pdv": 4118, "nombre": "PALI SAN PABLO", "tipo_unit": "MX", "placa": 10515}]}, {"key": "MARTES_2026-04-28", "label": "Mar 28 Abr", "fecha": "2026-04-28", "dia": "MARTES", "total": 101, "con_placa": 101, "sin_placa": 0, "placas": 88, "bloqueadas": 0, "mixtas": 26, "pct_placa": 100.0, "por_tipo": {"DXD": {"total": 101, "con_placa": 101, "sin_placa": 0, "placas": 88}}, "top_placas": [{"placa": "2035", "tiendas": 2, "pdvs": [3102, 4202]}, {"placa": "12013", "tiendas": 2, "pdvs": [4325, 3037]}, {"placa": "12009", "tiendas": 2, "pdvs": [4318, 3134]}, {"placa": "178170", "tiendas": 2, "pdvs": [4157, 3022]}, {"placa": "619", "tiendas": 2, "pdvs": [3111, 718]}, {"placa": "433", "tiendas": 2, "pdvs": [3072, 981]}, {"placa": "816", "tiendas": 2, "pdvs": [3118, 3901]}, {"placa": "10524", "tiendas": 2, "pdvs": [4470, 717]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 3102, "nombre": "PALI UNICENTRO", "tipo_unit": "F45X", "placa": 2035}, {"pdv": 4202, "nombre": "PALI MATA DE PLATANO", "tipo_unit": "F45X", "placa": 2035}, {"pdv": 4325, "nombre": "MXM LINCOL", "tipo_unit": "F45X", "placa": 12013}, {"pdv": 3037, "nombre": "MXM SAN PABLO", "tipo_unit": "F45X", "placa": 12013}, {"pdv": 4318, "nombre": "MAXI PALI MERCEDES NORTE", "tipo_unit": "F45X", "placa": 12009}, {"pdv": 3134, "nombre": "PALI LOS LAGOS", "tipo_unit": "F45X", "placa": 12009}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo_unit": "CX", "placa": 178170}, {"pdv": 3022, "nombre": "MAXI PALI CENTRO COMERCIAL", "tipo_unit": "CX", "placa": 178170}, {"pdv": 3111, "nombre": "MAXI PALI SAN  RAFAEL ABAJO CENTRO", "tipo_unit": "BX", "placa": 619}, {"pdv": 718, "nombre": "MAXI PALI ASERRI", "tipo_unit": "BX", "placa": 619}, {"pdv": 3072, "nombre": "PALI DESAMPARADOS", "tipo_unit": "BX", "placa": 433}, {"pdv": 981, "nombre": "MAXI PALI SAN ANTONIO DE ESCAZU", "tipo_unit": "BX", "placa": 433}, {"pdv": 3118, "nombre": "PALI EL ALTO", "tipo_unit": "BX", "placa": 816}, {"pdv": 3901, "nombre": "MAXI PALI ALAJUELA", "tipo_unit": "BX", "placa": 816}, {"pdv": 4470, "nombre": "PALI PALMARES CENTRO", "tipo_unit": "MX", "placa": 10524}, {"pdv": 717, "nombre": "MAXI PALI NARANJO", "tipo_unit": "MX", "placa": 10524}, {"pdv": 806, "nombre": "MAXI PALI SANTA ANA", "tipo_unit": "MX", "placa": 10902}, {"pdv": 3044, "nombre": "MXM PASEO DE LAS FLORES", "tipo_unit": "MX", "placa": 10902}, {"pdv": 4135, "nombre": "PALI PURRAL", "tipo_unit": "MX", "placa": 10475}, {"pdv": 3071, "nombre": "PALI CALLE BLANCOS", "tipo_unit": "MX", "placa": 10475}, {"pdv": 3112, "nombre": "MAXI PALI PACIFICO", "tipo_unit": "MX", "placa": 10455}, {"pdv": 968, "nombre": "PALI TURRUCARES", "tipo_unit": "MX", "placa": 10455}, {"pdv": 984, "nombre": "PALI LAS CAÑAS", "tipo_unit": "CX", "placa": 173141}, {"pdv": 990, "nombre": "PALI SANTA ROSA", "tipo_unit": "CX", "placa": 173141}, {"pdv": 4383, "nombre": "MAXI PALI PAVAS", "tipo_unit": "BX", "placa": 4608}, {"pdv": 4435, "nombre": "MAXI PALI SAN RAFAEL DE ALAJUELA", "tipo_unit": "BX", "placa": 4608}]}, {"key": "MIÉRCOLES_2026-04-28", "label": "Mié 28 Abr", "fecha": "2026-04-28", "dia": "MIÉRCOLES", "total": 156, "con_placa": 155, "sin_placa": 1, "placas": 136, "bloqueadas": 0, "mixtas": 38, "pct_placa": 99.4, "por_tipo": {"DXS": {"total": 156, "con_placa": 155, "sin_placa": 1, "placas": 136}}, "top_placas": [{"placa": "10401", "tiendas": 2, "pdvs": [1036, 3064]}, {"placa": "10547", "tiendas": 2, "pdvs": [4369, 3094]}, {"placa": "5103", "tiendas": 2, "pdvs": [4181, 4124]}, {"placa": "560", "tiendas": 2, "pdvs": [1118, 3065]}, {"placa": "561", "tiendas": 2, "pdvs": [907, 4109]}, {"placa": "4624", "tiendas": 2, "pdvs": [958, 4052]}, {"placa": "2006", "tiendas": 2, "pdvs": [720, 4136]}, {"placa": "10538", "tiendas": 2, "pdvs": [1018, 1053]}], "sin_placa_list": [{"pdv": 3130, "nombre": "PALI PITAL", "tipo_unit": "C", "tipo": "DXS"}], "bloq_list": [], "mixtas_list": [{"pdv": 1036, "nombre": "PALI GENERAL VIEJO", "tipo_unit": "PROTOX", "placa": 10401}, {"pdv": 3064, "nombre": "PALI SAN ISIDRO", "tipo_unit": "PROTOX", "placa": 10401}, {"pdv": 4369, "nombre": "MAXI PALI SIQUIRRES", "tipo_unit": "PROTOX", "placa": 10547}, {"pdv": 3094, "nombre": "PALI LIMON", "tipo_unit": "PROTOX", "placa": 10547}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo_unit": "F45X", "placa": 5103}, {"pdv": 4124, "nombre": "PALI BATAN", "tipo_unit": "F45X", "placa": 5103}, {"pdv": 1118, "nombre": "Pali Liberia Estadio", "tipo_unit": "MX", "placa": 560}, {"pdv": 3065, "nombre": "PALI LIBERIA", "tipo_unit": "MX", "placa": 560}, {"pdv": 907, "nombre": "PALI HOJANCHA", "tipo_unit": "MX", "placa": 561}, {"pdv": 4109, "nombre": "MAXI PALI NICOYA", "tipo_unit": "MX", "placa": 561}, {"pdv": 958, "nombre": "MAXI PALI PLAYAS DEL COCO", "tipo_unit": "MX", "placa": 4624}, {"pdv": 4052, "nombre": "PALI SARDINAL", "tipo_unit": "MX", "placa": 4624}, {"pdv": 720, "nombre": "PALI JIMENEZ DE POCOCI", "tipo_unit": "F45X", "placa": 2006}, {"pdv": 4136, "nombre": "MAXI PALI GUAPILES", "tipo_unit": "F45X", "placa": 2006}, {"pdv": 1018, "nombre": "PALI CORRALILLO", "tipo_unit": "PROTOX", "placa": 10538}, {"pdv": 1053, "nombre": "PALI CABALLO BLANCO", "tipo_unit": "PROTOX", "placa": 10538}, {"pdv": 3126, "nombre": "PALI OROTINA", "tipo_unit": "BX", "placa": 2016}, {"pdv": 3096, "nombre": "PALI ESPARZA", "tipo_unit": "BX", "placa": 2016}, {"pdv": 4084, "nombre": "PALI SAN ISIDRO DE HEREDIA", "tipo_unit": "MX", "placa": 2020}, {"pdv": 1031, "nombre": "PALI VILLA NOVA", "tipo_unit": "MX", "placa": 2020}, {"pdv": 4320, "nombre": "PALI LLORENTE", "tipo_unit": "F45X", "placa": 638}, {"pdv": 4505, "nombre": "MXM SAN ISIDRO", "tipo_unit": "F45X", "placa": 638}, {"pdv": 4083, "nombre": "PALI TARRAZU", "tipo_unit": "F45X", "placa": 12010}, {"pdv": 3114, "nombre": "PALI CARTAGO CENTRO", "tipo_unit": "F45X", "placa": 12010}, {"pdv": 4469, "nombre": "MAXI PALI AGUA CALIENTE", "tipo_unit": "F45X", "placa": 460}, {"pdv": 925, "nombre": "PALI LOS MOLINOS", "tipo_unit": "F45X", "placa": 460}, {"pdv": 4404, "nombre": "MXM HEREDIA SUR", "tipo_unit": "F45X", "placa": 12006}, {"pdv": 4047, "nombre": "PALI DESAMPARADOS DE ALAJUELA", "tipo_unit": "F45X", "placa": 12006}, {"pdv": 4330, "nombre": "MXM GUACHIPELIN", "tipo_unit": "F45X", "placa": 12003}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo_unit": "F45X", "placa": 12003}, {"pdv": 978, "nombre": "MAXI PALI SAN PABLO", "tipo_unit": "BX", "placa": 10535}, {"pdv": 939, "nombre": "MAXI PALI ALAJUELA ESTE", "tipo_unit": "BX", "placa": 10535}, {"pdv": 1008, "nombre": "MP SAN RAFAEL DE HEREDIA", "tipo_unit": "PROTOX", "placa": 10418}, {"pdv": 3142, "nombre": "PALI SANTA BARBARA", "tipo_unit": "PROTOX", "placa": 10418}, {"pdv": 786, "nombre": "PALI LA SUIZA", "tipo_unit": "MX", "placa": 10524}, {"pdv": 793, "nombre": "MAXI PALI TURRIALBA NORTE", "tipo_unit": "MX", "placa": 10524}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA", "tipo_unit": "F45X", "placa": 10505}, {"pdv": 1089, "nombre": "MXM LIBERIA", "tipo_unit": "F45X", "placa": 10505}]}, {"key": "MIÉRCOLES_2026-04-29", "label": "Mié 29 Abr", "fecha": "2026-04-29", "dia": "MIÉRCOLES", "total": 84, "con_placa": 83, "sin_placa": 1, "placas": 78, "bloqueadas": 0, "mixtas": 10, "pct_placa": 98.8, "por_tipo": {"DXD": {"total": 84, "con_placa": 83, "sin_placa": 1, "placas": 78}}, "top_placas": [{"placa": "816", "tiendas": 2, "pdvs": [4432, 4064]}, {"placa": "631", "tiendas": 2, "pdvs": [4429, 4031]}, {"placa": "163923", "tiendas": 2, "pdvs": [1016, 3103]}, {"placa": "821", "tiendas": 2, "pdvs": [3056, 4107]}, {"placa": "622", "tiendas": 2, "pdvs": [3074, 3900]}, {"placa": "11822", "tiendas": 1, "pdvs": [711]}, {"placa": "141172", "tiendas": 1, "pdvs": [711]}, {"placa": "339", "tiendas": 1, "pdvs": [3700]}], "sin_placa_list": [{"pdv": 4461, "nombre": "MAXI PALI SANTA BARBARA", "tipo_unit": "B", "tipo": "DXD"}], "bloq_list": [], "mixtas_list": [{"pdv": 4432, "nombre": "MAXI PALI OREAMUNO", "tipo_unit": "BX", "placa": 816}, {"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "BX", "placa": 816}, {"pdv": 4429, "nombre": "MXM SAN RAMON", "tipo_unit": "BX", "placa": 631}, {"pdv": 4031, "nombre": "MAXI PALI SAN RAMON", "tipo_unit": "BX", "placa": 631}, {"pdv": 1016, "nombre": "PALI BETANIA", "tipo_unit": "CX", "placa": 163923}, {"pdv": 3103, "nombre": "PALI ESCAZU", "tipo_unit": "CX", "placa": 163923}, {"pdv": 3056, "nombre": "PALI ALAJUELA", "tipo_unit": "F45X", "placa": 821}, {"pdv": 4107, "nombre": "PALI COYOL", "tipo_unit": "F45X", "placa": 821}, {"pdv": 3074, "nombre": "PALI SAN FRANCISCO", "tipo_unit": "BX", "placa": 622}, {"pdv": 3900, "nombre": "MAXI PALI EL CRUCE", "tipo_unit": "BX", "placa": 622}]}, {"key": "JUEVES_2026-04-29", "label": "Jue 29 Abr", "fecha": "2026-04-29", "dia": "JUEVES", "total": 174, "con_placa": 174, "sin_placa": 0, "placas": 158, "bloqueadas": 0, "mixtas": 32, "pct_placa": 100.0, "por_tipo": {"DXS": {"total": 174, "con_placa": 174, "sin_placa": 0, "placas": 158}}, "top_placas": [{"placa": "12211", "tiendas": 2, "pdvs": [1058, 4030]}, {"placa": "12004", "tiendas": 2, "pdvs": [4181, 4369]}, {"placa": "4630", "tiendas": 2, "pdvs": [1006, 4052]}, {"placa": "423", "tiendas": 2, "pdvs": [729, 3101]}, {"placa": "11827", "tiendas": 2, "pdvs": [851, 3038]}, {"placa": "456", "tiendas": 2, "pdvs": [828, 4021]}, {"placa": "12210", "tiendas": 2, "pdvs": [4195, 4128]}, {"placa": "460", "tiendas": 2, "pdvs": [737, 4003]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 1058, "nombre": "PALI CAJON", "tipo_unit": "PROTOX", "placa": 12211}, {"pdv": 4030, "nombre": "MAXI PALI SAN ISIDRO", "tipo_unit": "PROTOX", "placa": 12211}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo_unit": "BX", "placa": 12004}, {"pdv": 4369, "nombre": "MAXI PALI SIQUIRRES", "tipo_unit": "BX", "placa": 12004}, {"pdv": 1006, "nombre": "PALI BIJAGUA", "tipo_unit": "MX", "placa": 4630}, {"pdv": 4052, "nombre": "PALI SARDINAL", "tipo_unit": "MX", "placa": 4630}, {"pdv": 729, "nombre": "PALI MATINA", "tipo_unit": "BX", "placa": 423}, {"pdv": 3101, "nombre": "PALI SIQUIRRES", "tipo_unit": "BX", "placa": 423}, {"pdv": 851, "nombre": "PALI RIO JIMENEZ", "tipo_unit": "MX", "placa": 11827}, {"pdv": 3038, "nombre": "MXM GUAPILES", "tipo_unit": "MX", "placa": 11827}, {"pdv": 828, "nombre": "MAXI PALI UPALA", "tipo_unit": "BX", "placa": 456}, {"pdv": 4021, "nombre": "PALI GUATUSO", "tipo_unit": "BX", "placa": 456}, {"pdv": 4195, "nombre": "MAXI PALI CAÑAS", "tipo_unit": "BX", "placa": 12210}, {"pdv": 4128, "nombre": "PALI LAS JUNTAS", "tipo_unit": "BX", "placa": 12210}, {"pdv": 737, "nombre": "PALI PUERTO JIMENEZ", "tipo_unit": "F45X", "placa": 460}, {"pdv": 4003, "nombre": "PALI PALMAR NORTE", "tipo_unit": "F45X", "placa": 460}, {"pdv": 950, "nombre": "PALI SANTA MARIA DE DOTA", "tipo_unit": "MX", "placa": 11809}, {"pdv": 738, "nombre": "PALI TOBOSI", "tipo_unit": "MX", "placa": 11809}, {"pdv": 3045, "nombre": "MXM ROHRMOSER", "tipo_unit": "CX", "placa": 165081}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "CX", "placa": 165081}, {"pdv": 966, "nombre": "MAXI PALI UVITA", "tipo_unit": "BX", "placa": 633}, {"pdv": 4215, "nombre": "MAXI PALI QUEPOS", "tipo_unit": "BX", "placa": 633}, {"pdv": 4467, "nombre": "PALI SAN DIEGO", "tipo_unit": "CX", "placa": 167464}, {"pdv": 3136, "nombre": "PALI COT", "tipo_unit": "CX", "placa": 167464}, {"pdv": 3122, "nombre": "PALI TEJAR", "tipo_unit": "F40X", "placa": 4301}, {"pdv": 3114, "nombre": "PALI CARTAGO CENTRO", "tipo_unit": "F40X", "placa": 4301}, {"pdv": 3062, "nombre": "PALI ROHMOSER", "tipo_unit": "CX", "placa": 159778}, {"pdv": 853, "nombre": "PALI TUETAL", "tipo_unit": "CX", "placa": 159778}, {"pdv": 958, "nombre": "MAXI PALI PLAYAS DEL COCO", "tipo_unit": "BX", "placa": 479}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA", "tipo_unit": "BX", "placa": 479}, {"pdv": 3109, "nombre": "PALI PARRITA", "tipo_unit": "F45X", "placa": 12018}, {"pdv": 4486, "nombre": "MAXI PALI PARRITA", "tipo_unit": "F45X", "placa": 12018}]}, {"key": "JUEVES_2026-04-30", "label": "Jue 30 Abr", "fecha": "2026-04-30", "dia": "JUEVES", "total": 99, "con_placa": 98, "sin_placa": 1, "placas": 89, "bloqueadas": 0, "mixtas": 18, "pct_placa": 99.0, "por_tipo": {"DXD": {"total": 99, "con_placa": 98, "sin_placa": 1, "placas": 89}}, "top_placas": [{"placa": "4606", "tiendas": 2, "pdvs": [4350, 718]}, {"placa": "12010", "tiendas": 2, "pdvs": [4325, 4202]}, {"placa": "10520", "tiendas": 2, "pdvs": [3028, 4461]}, {"placa": "10467", "tiendas": 2, "pdvs": [3120, 3071]}, {"placa": "476", "tiendas": 2, "pdvs": [4470, 4004]}, {"placa": "10410", "tiendas": 2, "pdvs": [3141, 3068]}, {"placa": "427", "tiendas": 2, "pdvs": [4318, 3134]}, {"placa": "12213", "tiendas": 2, "pdvs": [4426, 4282]}], "sin_placa_list": [{"pdv": 4318, "nombre": "MAXI PALI MERCEDES NORTE", "tipo_unit": "PROTO", "tipo": "DXD"}], "bloq_list": [], "mixtas_list": [{"pdv": 4350, "nombre": "MAXI PALI SAN RAFAEL ABAJO", "tipo_unit": "F45X", "placa": 4606}, {"pdv": 718, "nombre": "MAXI PALI ASERRI", "tipo_unit": "F45X", "placa": 4606}, {"pdv": 4325, "nombre": "MXM LINCOL", "tipo_unit": "F45X", "placa": 12010}, {"pdv": 4202, "nombre": "PALI MATA DE PLATANO", "tipo_unit": "F45X", "placa": 12010}, {"pdv": 3028, "nombre": "MXM SAN GERARDO", "tipo_unit": "BX", "placa": 10520}, {"pdv": 4461, "nombre": "MAXI PALI SANTA BARBARA", "tipo_unit": "BX", "placa": 10520}, {"pdv": 3120, "nombre": "PALI SAN JOAQUIN", "tipo_unit": "MX", "placa": 10467}, {"pdv": 3071, "nombre": "PALI CALLE BLANCOS", "tipo_unit": "MX", "placa": 10467}, {"pdv": 4470, "nombre": "PALI PALMARES CENTRO", "tipo_unit": "F45X", "placa": 476}, {"pdv": 4004, "nombre": "MAXI PALI GRECIA", "tipo_unit": "F45X", "placa": 476}, {"pdv": 3141, "nombre": "PALI SARCHI", "tipo_unit": "PROTOX", "placa": 10410}, {"pdv": 3068, "nombre": "PALI SAN RAMON", "tipo_unit": "PROTOX", "placa": 10410}, {"pdv": 4318, "nombre": "MAXI PALI MERCEDES NORTE", "tipo_unit": "BX", "placa": 427}, {"pdv": 3134, "nombre": "PALI LOS LAGOS", "tipo_unit": "BX", "placa": 427}, {"pdv": 4426, "nombre": "MXM SAN JOAQUIN", "tipo_unit": "PROTOX", "placa": 12213}, {"pdv": 4282, "nombre": "PALI EL ROBLE DE ALAJUELA", "tipo_unit": "PROTOX", "placa": 12213}, {"pdv": 733, "nombre": "MAXI PALI CORONADO", "tipo_unit": "BX", "placa": 824}, {"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "BX", "placa": 824}]}, {"key": "VIERNES_2026-04-30", "label": "Vie 30 Abr", "fecha": "2026-04-30", "dia": "VIERNES", "total": 161, "con_placa": 37, "sin_placa": 124, "placas": 31, "bloqueadas": 121, "mixtas": 31, "pct_placa": 23.0, "por_tipo": {"DXS": {"total": 161, "con_placa": 37, "sin_placa": 124, "placas": 31}}, "top_placas": [{"placa": "10524", "tiendas": 2, "pdvs": [953, 1037]}, {"placa": "339", "tiendas": 2, "pdvs": [3094, 3904]}, {"placa": "561", "tiendas": 2, "pdvs": [1089, 1118]}, {"placa": "10530", "tiendas": 2, "pdvs": [4059, 4003]}, {"placa": "2019", "tiendas": 2, "pdvs": [769, 4109]}, {"placa": "2040", "tiendas": 2, "pdvs": [3127, 3109]}, {"placa": "10402", "tiendas": 1, "pdvs": [1036]}, {"placa": "10471", "tiendas": 1, "pdvs": [3064]}], "sin_placa_list": [{"pdv": 3064, "nombre": "PALI SAN ISIDRO", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 909, "nombre": "PALI LIMONCITO", "tipo_unit": "CX", "tipo": "DXS"}, {"pdv": 3143, "nombre": "PALI RIO FRIO", "tipo_unit": "CX", "tipo": "DXS"}, {"pdv": 4136, "nombre": "MAXI PALI GUAPILES", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 934, "nombre": "PALI GUAYABO", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 4081, "nombre": "PALI BAGACES", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 4188, "nombre": "PALI SAN ROQUE DE LIBERIA", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 1028, "nombre": "PALI LOS ANGELES FORTUNA", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 3039, "nombre": "MXM LIMON", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 3039, "nombre": "MXM LIMON", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 4060, "nombre": "PALI LA CRUZ", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 3099, "nombre": "PALI NICOYA", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 907, "nombre": "PALI HOJANCHA", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 961, "nombre": "PALI POCORA", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 720, "nombre": "PALI JIMENEZ DE POCOCI", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 967, "nombre": "PALI JUAN VIÑAS", "tipo_unit": "T", "tipo": "DXS"}, {"pdv": 1053, "nombre": "PALI CABALLO BLANCO", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 1035, "nombre": "PALI SANTA ROSA DE TURRIALBA", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 1086, "nombre": "PALI PALMICHAL", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo_unit": "53", "tipo": "DXS"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 3058, "nombre": "PALI PUNTARENAS", "tipo_unit": "DOLLY", "tipo": "DXS"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO", "tipo_unit": "53", "tipo": "DXS"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO", "tipo_unit": "53", "tipo": "DXS"}, {"pdv": 1024, "nombre": "Pali Carpintera", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 917, "nombre": "PALI CERVANTES", "tipo_unit": "PROTO", "tipo": "DXS"}, {"pdv": 1041, "nombre": "PALI GUADALUPE CENTRO", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 4339, "nombre": "MAXI PALI ATENAS", "tipo_unit": "PROTO", "tipo": "DXS"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo_unit": "C", "tipo": "DXS"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo_unit": "PROTO", "tipo": "DXS"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo_unit": "CX", "tipo": "DXS"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo_unit": "CX", "tipo": "DXS"}, {"pdv": 749, "nombre": "PALI PACAYAS", "tipo_unit": "MX", "tipo": "DXS"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo_unit": "M", "tipo": "DXS"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo_unit": "M", "tipo": "DXS"}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo_unit": "B", "tipo": "DXS"}, {"pdv": 3096, "nombre": "PALI ESPARZA", "tipo_unit": "53", "tipo": "DXS"}, {"pdv": 852, "nombre": "PALI OROSI", "tipo_unit": "M", "tipo": "DXS"}], "bloq_list": [{"pdv": 934, "nombre": "PALI GUAYABO"}, {"pdv": 4081, "nombre": "PALI BAGACES"}, {"pdv": 4188, "nombre": "PALI SAN ROQUE DE LIBERIA"}, {"pdv": 1028, "nombre": "PALI LOS ANGELES FORTUNA"}, {"pdv": 3039, "nombre": "MXM LIMON"}, {"pdv": 3039, "nombre": "MXM LIMON"}, {"pdv": 4060, "nombre": "PALI LA CRUZ"}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA"}, {"pdv": 3099, "nombre": "PALI NICOYA"}, {"pdv": 907, "nombre": "PALI HOJANCHA"}, {"pdv": 961, "nombre": "PALI POCORA"}, {"pdv": 720, "nombre": "PALI JIMENEZ DE POCOCI"}, {"pdv": 967, "nombre": "PALI JUAN VIÑAS"}, {"pdv": 1053, "nombre": "PALI CABALLO BLANCO"}, {"pdv": 1035, "nombre": "PALI SANTA ROSA DE TURRIALBA"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT"}, {"pdv": 1086, "nombre": "PALI PALMICHAL"}, {"pdv": 3085, "nombre": "PALI EL ROBLE"}, {"pdv": 3085, "nombre": "PALI EL ROBLE"}, {"pdv": 3058, "nombre": "PALI PUNTARENAS"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO"}, {"pdv": 1024, "nombre": "Pali Carpintera"}, {"pdv": 917, "nombre": "PALI CERVANTES"}, {"pdv": 1041, "nombre": "PALI GUADALUPE CENTRO"}, {"pdv": 4339, "nombre": "MAXI PALI ATENAS"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO"}, {"pdv": 749, "nombre": "PALI PACAYAS"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO"}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO"}, {"pdv": 3096, "nombre": "PALI ESPARZA"}, {"pdv": 852, "nombre": "PALI OROSI"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS"}, {"pdv": 1117, "nombre": "PALI CARTAGO ESTE"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA"}], "mixtas_list": [{"pdv": 953, "nombre": "PALI LA CUESTA", "tipo_unit": "MX", "placa": 10524}, {"pdv": 1037, "nombre": "PALI GOLFITO", "tipo_unit": "MX", "placa": 10524}, {"pdv": 3094, "nombre": "PALI LIMON", "tipo_unit": "F45X", "placa": 339}, {"pdv": 3904, "nombre": "MAXI PALI LIMON", "tipo_unit": "F45X", "placa": 339}, {"pdv": 909, "nombre": "PALI LIMONCITO", "tipo_unit": "CX", "placa": null}, {"pdv": 3143, "nombre": "PALI RIO FRIO", "tipo_unit": "CX", "placa": null}, {"pdv": 1089, "nombre": "MXM LIBERIA", "tipo_unit": "MX", "placa": 561}, {"pdv": 1118, "nombre": "Pali Liberia Estadio", "tipo_unit": "MX", "placa": 561}, {"pdv": 4059, "nombre": "PALI RIO CLARO", "tipo_unit": "BX", "placa": 10530}, {"pdv": 4003, "nombre": "PALI PALMAR NORTE", "tipo_unit": "BX", "placa": 10530}, {"pdv": 769, "nombre": "MAXI PALI TAMARINDO", "tipo_unit": "MX", "placa": 2019}, {"pdv": 4109, "nombre": "MAXI PALI NICOYA", "tipo_unit": "MX", "placa": 2019}, {"pdv": 3127, "nombre": "PALI QUEPOS", "tipo_unit": "MX", "placa": 2040}, {"pdv": 3109, "nombre": "PALI PARRITA", "tipo_unit": "MX", "placa": 2040}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo_unit": "CX", "placa": null}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo_unit": "CX", "placa": null}, {"pdv": 749, "nombre": "PALI PACAYAS", "tipo_unit": "MX", "placa": null}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo_unit": "BX", "placa": null}, {"pdv": 719, "nombre": "MXM HACIENDA VIEJA", "tipo_unit": "BX", "placa": null}, {"pdv": 4505, "nombre": "MXM SAN ISIDRO", "tipo_unit": "F45X", "placa": null}, {"pdv": 778, "nombre": "MAXI PALI MONTECILLOS", "tipo_unit": "F45X", "placa": null}, {"pdv": 786, "nombre": "PALI LA SUIZA", "tipo_unit": "MX", "placa": null}, {"pdv": 925, "nombre": "PALI LOS MOLINOS", "tipo_unit": "MX", "placa": null}, {"pdv": 4469, "nombre": "MAXI PALI AGUA CALIENTE", "tipo_unit": "BX", "placa": null}, {"pdv": 1021, "nombre": "MAXI PALI CONCEPCIÓN", "tipo_unit": "BX", "placa": null}, {"pdv": 751, "nombre": "PALI SAN SEBASTIAN NORTE", "tipo_unit": "MX", "placa": null}, {"pdv": 3107, "nombre": "PALI CIUDAD COLON", "tipo_unit": "MX", "placa": null}, {"pdv": 3034, "nombre": "MXM PLAZA AMERICA", "tipo_unit": "CX", "placa": null}, {"pdv": 743, "nombre": "PALI BARRIO CORAZON DE JESUS", "tipo_unit": "CX", "placa": null}, {"pdv": 4281, "nombre": "PALI MERCEDES SUR", "tipo_unit": "MX", "placa": null}, {"pdv": 3112, "nombre": "MAXI PALI PACIFICO", "tipo_unit": "MX", "placa": null}]}]};</script>
+<script>const DATA={"updated": "30/04/2026 11:00 AM", "semana": "Semana 25 Abr — 01 May 2026", "total": {"tiendas": 1317, "con_placa": 1189, "sin_placa": 128, "placas": 1032, "bloqueadas": 121, "mixtas": 259}, "dias": [{"key": "2026-04-25", "label": "Sáb 25 Abr", "sabado": true, "total": 260, "con_placa": 260, "sin_placa": 0, "placas": 222, "bloqueadas": 0, "mixtas": 58, "pct_placa": 100.0, "por_tipo": {"DXD": {"total": 82, "con_placa": 82, "sin_placa": 0, "placas": 71, "pct": 100.0}, "DXS": {"total": 178, "con_placa": 178, "sin_placa": 0, "placas": 159, "pct": 100.0}}, "top_placas": [{"placa": "165366", "tiendas": 3, "pdvs": [3071, 3116, 4241]}, {"placa": "10904", "tiendas": 3, "pdvs": [968, 919, 1064]}, {"placa": "157215", "tiendas": 3, "pdvs": [1052, 3062, 834]}, {"placa": "567", "tiendas": 2, "pdvs": [718, 700]}, {"placa": "622", "tiendas": 2, "pdvs": [3072, 718]}, {"placa": "485", "tiendas": 2, "pdvs": [3033, 4064]}, {"placa": "167415", "tiendas": 2, "pdvs": [4402, 4282]}, {"placa": "144726", "tiendas": 2, "pdvs": [4402, 3115]}], "sin_placa_list": [], "bloq_list": [], "mixtas_list": [{"pdv": 3072, "nombre": "PALI DESAMPARADOS", "tipo_unit": "BX", "placa": "622"}, {"pdv": 718, "nombre": "MAXI PALI ASERRI", "tipo_unit": "BX", "placa": "622"}, {"pdv": 3033, "nombre": "MXM CORONADO", "tipo_unit": "BX", "placa": "485"}, {"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "BX", "placa": "485"}, {"pdv": 3071, "nombre": "PALI CALLE BLANCOS", "tipo_unit": "TX", "placa": "165366"}, {"pdv": 3116, "nombre": "PALI TIBAS EL PARQUE", "tipo_unit": "TX", "placa": "165366"}, {"pdv": 4470, "nombre": "PALI PALMARES CENTRO", "tipo_unit": "BX", "placa": "416"}, {"pdv": 4004, "nombre": "MAXI PALI GRECIA", "tipo_unit": "BX", "placa": "416"}, {"pdv": 4325, "nombre": "MXM LINCOL", "tipo_unit": "BX", "placa": "637"}, {"pdv": 3134, "nombre": "PALI LOS LAGOS", "tipo_unit": "BX", "placa": "637"}, {"pdv": 968, "nombre": "PALI TURRUCARES", "tipo_unit": "MX", "placa": "10904"}, {"pdv": 919, "nombre": "PALI LA GUACIMA", "tipo_unit": "MX", "placa": "10904"}, {"pdv": 3118, "nombre": "PALI EL ALTO", "tipo_unit": "BX", "placa": "812"}, {"pdv": 3037, "nombre": "MXM SAN PABLO", "tipo_unit": "BX", "placa": "812"}, {"pdv": 3133, "nombre": "PALI SAN FELIPE", "tipo_unit": "BX", "placa": "10528"}, {"pdv": 4435, "nombre": "MAXI PALI SAN RAFAEL DE ALAJUELA", "tipo_unit": "BX", "placa": "10528"}, {"pdv": 4202, "nombre": "PALI MATA DE PLATANO", "tipo_unit": "F45X", "placa": "10506"}, {"pdv": 3145, "nombre": "PALI SAN RAFAEL DE HEREDIA", "tipo_unit": "F45X", "placa": "10506"}, {"pdv": 984, "nombre": "PALI LAS CAÑAS", "tipo_unit": "CX", "placa": "151786"}, {"pdv": 990, "nombre": "PALI SANTA ROSA", "tipo_unit": "CX", "placa": "151786"}, {"pdv": 4195, "nombre": "MAXI PALI CAÑAS", "tipo_unit": "BX", "placa": "667"}, {"pdv": 4081, "nombre": "PALI BAGACES", "tipo_unit": "BX", "placa": "667"}, {"pdv": 934, "nombre": "PALI GUAYABO", "tipo_unit": "MX", "placa": "4636"}, {"pdv": 4052, "nombre": "PALI SARDINAL", "tipo_unit": "MX", "placa": "4636"}, {"pdv": 1117, "nombre": "PALI CARTAGO ESTE", "tipo_unit": "CX", "placa": "165081"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "CX", "placa": "165081"}, {"pdv": 3107, "nombre": "PALI CIUDAD COLON", "tipo_unit": "CX", "placa": "165004"}, {"pdv": 1086, "nombre": "PALI PALMICHAL", "tipo_unit": "CX", "placa": "165004"}, {"pdv": 1041, "nombre": "PALI GUADALUPE CENTRO", "tipo_unit": "CX", "placa": "172358"}, {"pdv": 4444, "nombre": "PALI SAN PEDRO DE BARVA", "tipo_unit": "CX", "placa": "172358"}, {"pdv": 3052, "nombre": "PALI SAN SEBASTIAN", "tipo_unit": "MX", "placa": "12105"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo_unit": "MX", "placa": "12105"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo_unit": "F45X", "placa": "467"}, {"pdv": 3900, "nombre": "MAXI PALI EL CRUCE", "tipo_unit": "F45X", "placa": "467"}, {"pdv": 4244, "nombre": "PALI BARRIO MEXICO", "tipo_unit": "CX", "placa": "163923"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS", "tipo_unit": "CX", "placa": "163923"}, {"pdv": 3098, "nombre": "PALI ASERRI ABAJO", "tipo_unit": "BX", "placa": "642"}, {"pdv": 4430, "nombre": "MXM BARRIO SAN JOSE", "tipo_unit": "BX", "placa": "642"}, {"pdv": 4083, "nombre": "PALI TARRAZU", "tipo_unit": "F45X", "placa": "476"}, {"pdv": 925, "nombre": "PALI LOS MOLINOS", "tipo_unit": "F45X", "placa": "476"}, {"pdv": 4047, "nombre": "PALI DESAMPARADOS DE ALAJUELA", "tipo_unit": "F45X", "placa": "2011"}, {"pdv": 3079, "nombre": "PALI COLIMA", "tipo_unit": "F45X", "placa": "2011"}, {"pdv": 1030, "nombre": "PALI LA CANDELARIA", "tipo_unit": "CX", "placa": "177230"}, {"pdv": 980, "nombre": "PALI EL PORO", "tipo_unit": "CX", "placa": "177230"}, {"pdv": 4118, "nombre": "PALI SAN PABLO", "tipo_unit": "MX", "placa": "2030"}, {"pdv": 4281, "nombre": "PALI MERCEDES SUR", "tipo_unit": "MX", "placa": "2030"}, {"pdv": 1062, "nombre": "PALI MONTEVERDE", "tipo_unit": "PROTOX", "placa": "10549"}, {"pdv": 1118, "nombre": "Pali Liberia Estadio", "tipo_unit": "PROTOX", "placa": "10549"}, {"pdv": 1036, "nombre": "PALI GENERAL VIEJO", "tipo_unit": "PROTOX", "placa": "10401"}, {"pdv": 3064, "nombre": "PALI SAN ISIDRO", "tipo_unit": "PROTOX", "placa": "10401"}]}, {"key": "2026-04-27", "label": "Lun 27 Abr", "sabado": false, "total": 282, "con_placa": 281, "sin_placa": 1, "placas": 247, "bloqueadas": 0, "mixtas": 46, "pct_placa": 99.6, "por_tipo": {"DXD": {"total": 109, "con_placa": 109, "sin_placa": 0, "placas": 96, "pct": 100.0}, "DXS": {"total": 173, "con_placa": 172, "sin_placa": 1, "placas": 154, "pct": 99.4}}, "top_placas": [{"placa": "478", "tiendas": 3, "pdvs": [3086, 4107, 736]}, {"placa": "588", "tiendas": 2, "pdvs": [4064, 4432]}, {"placa": "10903", "tiendas": 2, "pdvs": [3061, 3135]}, {"placa": "185662", "tiendas": 2, "pdvs": [3021, 1016]}, {"placa": "819", "tiendas": 2, "pdvs": [3028, 3121]}, {"placa": "653", "tiendas": 2, "pdvs": [3074, 3033]}, {"placa": "619", "tiendas": 2, "pdvs": [4429, 4004]}, {"placa": "10409", "tiendas": 2, "pdvs": [1095, 3059]}], "sin_placa_list": [{"pdv": 986, "nombre": "PALI CD COYOl", "tipo": "DXS", "tipo_unit": "-", "dia_ent": "MARTES"}], "bloq_list": [], "mixtas_list": [{"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "53X", "placa": "588"}, {"pdv": 4432, "nombre": "MAXI PALI OREAMUNO", "tipo_unit": "53X", "placa": "588"}, {"pdv": 3021, "nombre": "PALI CUESTA DE MORAS", "tipo_unit": "CX", "placa": "185662"}, {"pdv": 1016, "nombre": "PALI BETANIA", "tipo_unit": "CX", "placa": "185662"}, {"pdv": 3028, "nombre": "MXM SAN GERARDO", "tipo_unit": "BX", "placa": "819"}, {"pdv": 3121, "nombre": "PALI BARRIO SAN JOSE", "tipo_unit": "BX", "placa": "819"}, {"pdv": 3074, "nombre": "PALI SAN FRANCISCO", "tipo_unit": "53X", "placa": "653"}, {"pdv": 3033, "nombre": "MXM CORONADO", "tipo_unit": "53X", "placa": "653"}, {"pdv": 4429, "nombre": "MXM SAN RAMON", "tipo_unit": "BX", "placa": "619"}, {"pdv": 4004, "nombre": "MAXI PALI GRECIA", "tipo_unit": "BX", "placa": "619"}, {"pdv": 4088, "nombre": "PALI POCOSOL", "tipo_unit": "MX", "placa": "10454"}, {"pdv": 4020, "nombre": "PALI LOS CHILES", "tipo_unit": "MX", "placa": "10454"}, {"pdv": 1055, "nombre": "PALI CIUDAD QUESADA NORTE", "tipo_unit": "PROTOX", "placa": "10405"}, {"pdv": 1028, "nombre": "PALI LOS ANGELES FORTUNA", "tipo_unit": "PROTOX", "placa": "10405"}, {"pdv": 950, "nombre": "PALI SANTA MARIA DE DOTA", "tipo_unit": "MX", "placa": "10906"}, {"pdv": 3076, "nombre": "PALI TURRIALBA", "tipo_unit": "MX", "placa": "10906"}, {"pdv": 3113, "nombre": "PALI DESAMPARADOS CENTRO", "tipo_unit": "CX", "placa": "165081"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "CX", "placa": "165081"}, {"pdv": 4467, "nombre": "PALI SAN DIEGO", "tipo_unit": "MX", "placa": "4632"}, {"pdv": 738, "nombre": "PALI TOBOSI", "tipo_unit": "MX", "placa": "4632"}, {"pdv": 4486, "nombre": "MAXI PALI PARRITA", "tipo_unit": "F45X", "placa": "2023"}, {"pdv": 4215, "nombre": "MAXI PALI QUEPOS", "tipo_unit": "F45X", "placa": "2023"}, {"pdv": 933, "nombre": "PALI DULCE NOMBRE", "tipo_unit": "PROTOX", "placa": "10403"}, {"pdv": 1024, "nombre": "Pali Carpintera", "tipo_unit": "PROTOX", "placa": "10403"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo_unit": "BX", "placa": "469"}, {"pdv": 4166, "nombre": "PALI MIRAMAR", "tipo_unit": "BX", "placa": "469"}, {"pdv": 776, "nombre": "MXM TEJAR", "tipo_unit": "BX", "placa": "12021"}, {"pdv": 4085, "nombre": "PALI CONCEPCION TRES RIOS", "tipo_unit": "BX", "placa": "12021"}, {"pdv": 4193, "nombre": "PALI SAN RAFAEL DE MONTES", "tipo_unit": "MX", "placa": "2019"}, {"pdv": 4281, "nombre": "PALI MERCEDES SUR", "tipo_unit": "MX", "placa": "2019"}, {"pdv": 3032, "nombre": "MXM SABANILLA", "tipo_unit": "BX", "placa": "423"}, {"pdv": 3090, "nombre": "PALI BELEN", "tipo_unit": "BX", "placa": "423"}, {"pdv": 4230, "nombre": "PALI GRANADILLA", "tipo_unit": "CX", "placa": "164125"}, {"pdv": 4229, "nombre": "PALI BARRIO LA SOLEDAD", "tipo_unit": "CX", "placa": "164125"}, {"pdv": 4028, "nombre": "PALI TIRRASES", "tipo_unit": "BX", "placa": "12210"}, {"pdv": 4330, "nombre": "MXM GUACHIPELIN", "tipo_unit": "BX", "placa": "12210"}, {"pdv": 3092, "nombre": "PALI SAN MIGUEL DE DESAMPARADOS", "tipo_unit": "CX", "placa": "170260"}, {"pdv": 3115, "nombre": "PALI HEREDIA CENTRO", "tipo_unit": "CX", "placa": "170260"}, {"pdv": 4430, "nombre": "MXM BARRIO SAN JOSE", "tipo_unit": "BX", "placa": "2032"}, {"pdv": 939, "nombre": "MAXI PALI ALAJUELA ESTE", "tipo_unit": "BX", "placa": "2032"}, {"pdv": 4194, "nombre": "MAXI PALI TIBAS", "tipo_unit": "F45X", "placa": "10506"}, {"pdv": 4027, "nombre": "PALI SAN RAFAEL DE ALAJUELA", "tipo_unit": "F45X", "placa": "10506"}, {"pdv": 3138, "nombre": "PALI LOMAS DEL RIO", "tipo_unit": "BX", "placa": "809"}, {"pdv": 3079, "nombre": "PALI COLIMA", "tipo_unit": "BX", "placa": "809"}, {"pdv": 3091, "nombre": "PALI BARVA", "tipo_unit": "MX", "placa": "10515"}, {"pdv": 4118, "nombre": "PALI SAN PABLO", "tipo_unit": "MX", "placa": "10515"}]}, {"key": "2026-04-28", "label": "Mar 28 Abr", "sabado": false, "total": 257, "con_placa": 256, "sin_placa": 1, "placas": 214, "bloqueadas": 0, "mixtas": 64, "pct_placa": 99.6, "por_tipo": {"DXD": {"total": 101, "con_placa": 101, "sin_placa": 0, "placas": 88, "pct": 100.0}, "DXS": {"total": 156, "con_placa": 155, "sin_placa": 1, "placas": 136, "pct": 99.4}}, "top_placas": [{"placa": "10524", "tiendas": 4, "pdvs": [4470, 717, 786, 793]}, {"placa": "178113", "tiendas": 2, "pdvs": [4402, 930]}, {"placa": "165361", "tiendas": 2, "pdvs": [4402, 3130]}, {"placa": "167017", "tiendas": 2, "pdvs": [4402, 751]}, {"placa": "2035", "tiendas": 2, "pdvs": [3102, 4202]}, {"placa": "161743", "tiendas": 2, "pdvs": [3068, 1030]}, {"placa": "10449", "tiendas": 2, "pdvs": [3080, 939]}, {"placa": "12013", "tiendas": 2, "pdvs": [4325, 3037]}], "sin_placa_list": [{"pdv": 3130, "nombre": "PALI PITAL", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "MIÉRCOLES"}], "bloq_list": [], "mixtas_list": [{"pdv": 3102, "nombre": "PALI UNICENTRO", "tipo_unit": "F45X", "placa": "2035"}, {"pdv": 4202, "nombre": "PALI MATA DE PLATANO", "tipo_unit": "F45X", "placa": "2035"}, {"pdv": 4325, "nombre": "MXM LINCOL", "tipo_unit": "F45X", "placa": "12013"}, {"pdv": 3037, "nombre": "MXM SAN PABLO", "tipo_unit": "F45X", "placa": "12013"}, {"pdv": 4318, "nombre": "MAXI PALI MERCEDES NORTE", "tipo_unit": "F45X", "placa": "12009"}, {"pdv": 3134, "nombre": "PALI LOS LAGOS", "tipo_unit": "F45X", "placa": "12009"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo_unit": "CX", "placa": "178170"}, {"pdv": 3022, "nombre": "MAXI PALI CENTRO COMERCIAL", "tipo_unit": "CX", "placa": "178170"}, {"pdv": 3111, "nombre": "MAXI PALI SAN  RAFAEL ABAJO CENTRO", "tipo_unit": "BX", "placa": "619"}, {"pdv": 718, "nombre": "MAXI PALI ASERRI", "tipo_unit": "BX", "placa": "619"}, {"pdv": 3072, "nombre": "PALI DESAMPARADOS", "tipo_unit": "BX", "placa": "433"}, {"pdv": 981, "nombre": "MAXI PALI SAN ANTONIO DE ESCAZU", "tipo_unit": "BX", "placa": "433"}, {"pdv": 3118, "nombre": "PALI EL ALTO", "tipo_unit": "BX", "placa": "816"}, {"pdv": 3901, "nombre": "MAXI PALI ALAJUELA", "tipo_unit": "BX", "placa": "816"}, {"pdv": 4470, "nombre": "PALI PALMARES CENTRO", "tipo_unit": "MX", "placa": "10524"}, {"pdv": 717, "nombre": "MAXI PALI NARANJO", "tipo_unit": "MX", "placa": "10524"}, {"pdv": 806, "nombre": "MAXI PALI SANTA ANA", "tipo_unit": "MX", "placa": "10902"}, {"pdv": 3044, "nombre": "MXM PASEO DE LAS FLORES", "tipo_unit": "MX", "placa": "10902"}, {"pdv": 4135, "nombre": "PALI PURRAL", "tipo_unit": "MX", "placa": "10475"}, {"pdv": 3071, "nombre": "PALI CALLE BLANCOS", "tipo_unit": "MX", "placa": "10475"}, {"pdv": 3112, "nombre": "MAXI PALI PACIFICO", "tipo_unit": "MX", "placa": "10455"}, {"pdv": 968, "nombre": "PALI TURRUCARES", "tipo_unit": "MX", "placa": "10455"}, {"pdv": 984, "nombre": "PALI LAS CAÑAS", "tipo_unit": "CX", "placa": "173141"}, {"pdv": 990, "nombre": "PALI SANTA ROSA", "tipo_unit": "CX", "placa": "173141"}, {"pdv": 4383, "nombre": "MAXI PALI PAVAS", "tipo_unit": "BX", "placa": "4608"}, {"pdv": 4435, "nombre": "MAXI PALI SAN RAFAEL DE ALAJUELA", "tipo_unit": "BX", "placa": "4608"}, {"pdv": 1036, "nombre": "PALI GENERAL VIEJO", "tipo_unit": "PROTOX", "placa": "10401"}, {"pdv": 3064, "nombre": "PALI SAN ISIDRO", "tipo_unit": "PROTOX", "placa": "10401"}, {"pdv": 4369, "nombre": "MAXI PALI SIQUIRRES", "tipo_unit": "PROTOX", "placa": "10547"}, {"pdv": 3094, "nombre": "PALI LIMON", "tipo_unit": "PROTOX", "placa": "10547"}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo_unit": "F45X", "placa": "5103"}, {"pdv": 4124, "nombre": "PALI BATAN", "tipo_unit": "F45X", "placa": "5103"}, {"pdv": 1118, "nombre": "Pali Liberia Estadio", "tipo_unit": "MX", "placa": "560"}, {"pdv": 3065, "nombre": "PALI LIBERIA", "tipo_unit": "MX", "placa": "560"}, {"pdv": 907, "nombre": "PALI HOJANCHA", "tipo_unit": "MX", "placa": "561"}, {"pdv": 4109, "nombre": "MAXI PALI NICOYA", "tipo_unit": "MX", "placa": "561"}, {"pdv": 958, "nombre": "MAXI PALI PLAYAS DEL COCO", "tipo_unit": "MX", "placa": "4624"}, {"pdv": 4052, "nombre": "PALI SARDINAL", "tipo_unit": "MX", "placa": "4624"}, {"pdv": 720, "nombre": "PALI JIMENEZ DE POCOCI", "tipo_unit": "F45X", "placa": "2006"}, {"pdv": 4136, "nombre": "MAXI PALI GUAPILES", "tipo_unit": "F45X", "placa": "2006"}, {"pdv": 1018, "nombre": "PALI CORRALILLO", "tipo_unit": "PROTOX", "placa": "10538"}, {"pdv": 1053, "nombre": "PALI CABALLO BLANCO", "tipo_unit": "PROTOX", "placa": "10538"}, {"pdv": 3126, "nombre": "PALI OROTINA", "tipo_unit": "BX", "placa": "2016"}, {"pdv": 3096, "nombre": "PALI ESPARZA", "tipo_unit": "BX", "placa": "2016"}, {"pdv": 4084, "nombre": "PALI SAN ISIDRO DE HEREDIA", "tipo_unit": "MX", "placa": "2020"}, {"pdv": 1031, "nombre": "PALI VILLA NOVA", "tipo_unit": "MX", "placa": "2020"}, {"pdv": 4320, "nombre": "PALI LLORENTE", "tipo_unit": "F45X", "placa": "638"}, {"pdv": 4505, "nombre": "MXM SAN ISIDRO", "tipo_unit": "F45X", "placa": "638"}, {"pdv": 4083, "nombre": "PALI TARRAZU", "tipo_unit": "F45X", "placa": "12010"}, {"pdv": 3114, "nombre": "PALI CARTAGO CENTRO", "tipo_unit": "F45X", "placa": "12010"}]}, {"key": "2026-04-29", "label": "Mié 29 Abr", "sabado": false, "total": 258, "con_placa": 257, "sin_placa": 1, "placas": 229, "bloqueadas": 0, "mixtas": 42, "pct_placa": 99.6, "por_tipo": {"DXD": {"total": 84, "con_placa": 83, "sin_placa": 1, "placas": 78, "pct": 98.8}, "DXS": {"total": 174, "con_placa": 174, "sin_placa": 0, "placas": 158, "pct": 100.0}}, "top_placas": [{"placa": "163923", "tiendas": 3, "pdvs": [1016, 3103, 3115]}, {"placa": "816", "tiendas": 2, "pdvs": [4432, 4064]}, {"placa": "631", "tiendas": 2, "pdvs": [4429, 4031]}, {"placa": "821", "tiendas": 2, "pdvs": [3056, 4107]}, {"placa": "622", "tiendas": 2, "pdvs": [3074, 3900]}, {"placa": "11817", "tiendas": 2, "pdvs": [3086, 3025]}, {"placa": "525", "tiendas": 2, "pdvs": [3121, 4005]}, {"placa": "177652", "tiendas": 2, "pdvs": [3139, 3113]}], "sin_placa_list": [{"pdv": 4461, "nombre": "MAXI PALI SANTA BARBARA", "tipo": "DXD", "tipo_unit": "B", "dia_ent": "MIÉRCOLES"}], "bloq_list": [], "mixtas_list": [{"pdv": 4432, "nombre": "MAXI PALI OREAMUNO", "tipo_unit": "BX", "placa": "816"}, {"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "BX", "placa": "816"}, {"pdv": 4429, "nombre": "MXM SAN RAMON", "tipo_unit": "BX", "placa": "631"}, {"pdv": 4031, "nombre": "MAXI PALI SAN RAMON", "tipo_unit": "BX", "placa": "631"}, {"pdv": 1016, "nombre": "PALI BETANIA", "tipo_unit": "CX", "placa": "163923"}, {"pdv": 3103, "nombre": "PALI ESCAZU", "tipo_unit": "CX", "placa": "163923"}, {"pdv": 3056, "nombre": "PALI ALAJUELA", "tipo_unit": "F45X", "placa": "821"}, {"pdv": 4107, "nombre": "PALI COYOL", "tipo_unit": "F45X", "placa": "821"}, {"pdv": 3074, "nombre": "PALI SAN FRANCISCO", "tipo_unit": "BX", "placa": "622"}, {"pdv": 3900, "nombre": "MAXI PALI EL CRUCE", "tipo_unit": "BX", "placa": "622"}, {"pdv": 1058, "nombre": "PALI CAJON", "tipo_unit": "PROTOX", "placa": "12211"}, {"pdv": 4030, "nombre": "MAXI PALI SAN ISIDRO", "tipo_unit": "PROTOX", "placa": "12211"}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo_unit": "BX", "placa": "12004"}, {"pdv": 4369, "nombre": "MAXI PALI SIQUIRRES", "tipo_unit": "BX", "placa": "12004"}, {"pdv": 1006, "nombre": "PALI BIJAGUA", "tipo_unit": "MX", "placa": "4630"}, {"pdv": 4052, "nombre": "PALI SARDINAL", "tipo_unit": "MX", "placa": "4630"}, {"pdv": 729, "nombre": "PALI MATINA", "tipo_unit": "BX", "placa": "423"}, {"pdv": 3101, "nombre": "PALI SIQUIRRES", "tipo_unit": "BX", "placa": "423"}, {"pdv": 851, "nombre": "PALI RIO JIMENEZ", "tipo_unit": "MX", "placa": "11827"}, {"pdv": 3038, "nombre": "MXM GUAPILES", "tipo_unit": "MX", "placa": "11827"}, {"pdv": 828, "nombre": "MAXI PALI UPALA", "tipo_unit": "BX", "placa": "456"}, {"pdv": 4021, "nombre": "PALI GUATUSO", "tipo_unit": "BX", "placa": "456"}, {"pdv": 4195, "nombre": "MAXI PALI CAÑAS", "tipo_unit": "BX", "placa": "12210"}, {"pdv": 4128, "nombre": "PALI LAS JUNTAS", "tipo_unit": "BX", "placa": "12210"}, {"pdv": 737, "nombre": "PALI PUERTO JIMENEZ", "tipo_unit": "F45X", "placa": "460"}, {"pdv": 4003, "nombre": "PALI PALMAR NORTE", "tipo_unit": "F45X", "placa": "460"}, {"pdv": 950, "nombre": "PALI SANTA MARIA DE DOTA", "tipo_unit": "MX", "placa": "11809"}, {"pdv": 738, "nombre": "PALI TOBOSI", "tipo_unit": "MX", "placa": "11809"}, {"pdv": 3045, "nombre": "MXM ROHRMOSER", "tipo_unit": "CX", "placa": "165081"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo_unit": "CX", "placa": "165081"}, {"pdv": 966, "nombre": "MAXI PALI UVITA", "tipo_unit": "BX", "placa": "633"}, {"pdv": 4215, "nombre": "MAXI PALI QUEPOS", "tipo_unit": "BX", "placa": "633"}, {"pdv": 4467, "nombre": "PALI SAN DIEGO", "tipo_unit": "CX", "placa": "167464"}, {"pdv": 3136, "nombre": "PALI COT", "tipo_unit": "CX", "placa": "167464"}, {"pdv": 3122, "nombre": "PALI TEJAR", "tipo_unit": "F40X", "placa": "4301"}, {"pdv": 3114, "nombre": "PALI CARTAGO CENTRO", "tipo_unit": "F40X", "placa": "4301"}, {"pdv": 3062, "nombre": "PALI ROHMOSER", "tipo_unit": "CX", "placa": "159778"}, {"pdv": 853, "nombre": "PALI TUETAL", "tipo_unit": "CX", "placa": "159778"}, {"pdv": 958, "nombre": "MAXI PALI PLAYAS DEL COCO", "tipo_unit": "BX", "placa": "479"}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA", "tipo_unit": "BX", "placa": "479"}, {"pdv": 3109, "nombre": "PALI PARRITA", "tipo_unit": "F45X", "placa": "12018"}, {"pdv": 4486, "nombre": "MAXI PALI PARRITA", "tipo_unit": "F45X", "placa": "12018"}]}, {"key": "2026-04-30", "label": "Jue 30 Abr", "sabado": false, "total": 260, "con_placa": 135, "sin_placa": 125, "placas": 120, "bloqueadas": 121, "mixtas": 49, "pct_placa": 51.9, "por_tipo": {"DXD": {"total": 99, "con_placa": 98, "sin_placa": 1, "placas": 89, "pct": 99.0}, "DXS": {"total": 161, "con_placa": 37, "sin_placa": 124, "placas": 31, "pct": 23.0}}, "top_placas": [{"placa": "4606", "tiendas": 2, "pdvs": [4350, 718]}, {"placa": "12010", "tiendas": 2, "pdvs": [4325, 4202]}, {"placa": "10520", "tiendas": 2, "pdvs": [3028, 4461]}, {"placa": "10467", "tiendas": 2, "pdvs": [3120, 3071]}, {"placa": "476", "tiendas": 2, "pdvs": [4470, 4004]}, {"placa": "10410", "tiendas": 2, "pdvs": [3141, 3068]}, {"placa": "427", "tiendas": 2, "pdvs": [4318, 3134]}, {"placa": "12213", "tiendas": 2, "pdvs": [4426, 4282]}], "sin_placa_list": [{"pdv": 4318, "nombre": "MAXI PALI MERCEDES NORTE", "tipo": "DXD", "tipo_unit": "PROTO", "dia_ent": "JUEVES"}, {"pdv": 3064, "nombre": "PALI SAN ISIDRO", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 909, "nombre": "PALI LIMONCITO", "tipo": "DXS", "tipo_unit": "CX", "dia_ent": "VIERNES"}, {"pdv": 3143, "nombre": "PALI RIO FRIO", "tipo": "DXS", "tipo_unit": "CX", "dia_ent": "VIERNES"}, {"pdv": 4136, "nombre": "MAXI PALI GUAPILES", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 934, "nombre": "PALI GUAYABO", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 4081, "nombre": "PALI BAGACES", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 4188, "nombre": "PALI SAN ROQUE DE LIBERIA", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 1028, "nombre": "PALI LOS ANGELES FORTUNA", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 3039, "nombre": "MXM LIMON", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 3039, "nombre": "MXM LIMON", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 4060, "nombre": "PALI LA CRUZ", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 3099, "nombre": "PALI NICOYA", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 907, "nombre": "PALI HOJANCHA", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 961, "nombre": "PALI POCORA", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 720, "nombre": "PALI JIMENEZ DE POCOCI", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 967, "nombre": "PALI JUAN VIÑAS", "tipo": "DXS", "tipo_unit": "T", "dia_ent": "VIERNES"}, {"pdv": 1053, "nombre": "PALI CABALLO BLANCO", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 1035, "nombre": "PALI SANTA ROSA DE TURRIALBA", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 1086, "nombre": "PALI PALMICHAL", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo": "DXS", "tipo_unit": "53", "dia_ent": "VIERNES"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 3058, "nombre": "PALI PUNTARENAS", "tipo": "DXS", "tipo_unit": "DOLLY", "dia_ent": "VIERNES"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO", "tipo": "DXS", "tipo_unit": "53", "dia_ent": "VIERNES"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO", "tipo": "DXS", "tipo_unit": "53", "dia_ent": "VIERNES"}, {"pdv": 1024, "nombre": "Pali Carpintera", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 917, "nombre": "PALI CERVANTES", "tipo": "DXS", "tipo_unit": "PROTO", "dia_ent": "VIERNES"}, {"pdv": 1041, "nombre": "PALI GUADALUPE CENTRO", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 4339, "nombre": "MAXI PALI ATENAS", "tipo": "DXS", "tipo_unit": "PROTO", "dia_ent": "VIERNES"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo": "DXS", "tipo_unit": "PROTO", "dia_ent": "VIERNES"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo": "DXS", "tipo_unit": "CX", "dia_ent": "VIERNES"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo": "DXS", "tipo_unit": "CX", "dia_ent": "VIERNES"}, {"pdv": 749, "nombre": "PALI PACAYAS", "tipo": "DXS", "tipo_unit": "MX", "dia_ent": "VIERNES"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo": "DXS", "tipo_unit": "M", "dia_ent": "VIERNES"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo": "DXS", "tipo_unit": "M", "dia_ent": "VIERNES"}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo": "DXS", "tipo_unit": "B", "dia_ent": "VIERNES"}, {"pdv": 3096, "nombre": "PALI ESPARZA", "tipo": "DXS", "tipo_unit": "53", "dia_ent": "VIERNES"}, {"pdv": 852, "nombre": "PALI OROSI", "tipo": "DXS", "tipo_unit": "M", "dia_ent": "VIERNES"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS", "tipo": "DXS", "tipo_unit": "T", "dia_ent": "VIERNES"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 1117, "nombre": "PALI CARTAGO ESTE", "tipo": "DXS", "tipo_unit": "C", "dia_ent": "VIERNES"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo": "DXS", "tipo_unit": "53", "dia_ent": "VIERNES"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo": "DXS", "tipo_unit": "BX", "dia_ent": "VIERNES"}, {"pdv": 719, "nombre": "MXM HACIENDA VIEJA", "tipo": "DXS", "tipo_unit": "BX", "dia_ent": "VIERNES"}, {"pdv": 4505, "nombre": "MXM SAN ISIDRO", "tipo": "DXS", "tipo_unit": "F45X", "dia_ent": "VIERNES"}, {"pdv": 778, "nombre": "MAXI PALI MONTECILLOS", "tipo": "DXS", "tipo_unit": "F45X", "dia_ent": "VIERNES"}, {"pdv": 778, "nombre": "MAXI PALI MONTECILLOS", "tipo": "DXS", "tipo_unit": "B", "dia_ent": "VIERNES"}], "bloq_list": [{"pdv": 934, "nombre": "PALI GUAYABO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4081, "nombre": "PALI BAGACES", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4188, "nombre": "PALI SAN ROQUE DE LIBERIA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1028, "nombre": "PALI LOS ANGELES FORTUNA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3039, "nombre": "MXM LIMON", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3039, "nombre": "MXM LIMON", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4060, "nombre": "PALI LA CRUZ", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3905, "nombre": "MAXI PALI LIBERIA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3099, "nombre": "PALI NICOYA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 907, "nombre": "PALI HOJANCHA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 961, "nombre": "PALI POCORA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 720, "nombre": "PALI JIMENEZ DE POCOCI", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 967, "nombre": "PALI JUAN VIÑAS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1053, "nombre": "PALI CABALLO BLANCO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1035, "nombre": "PALI SANTA ROSA DE TURRIALBA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3067, "nombre": "PALI CURRIDABAT", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1086, "nombre": "PALI PALMICHAL", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3085, "nombre": "PALI EL ROBLE", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3058, "nombre": "PALI PUNTARENAS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4214, "nombre": "MAXI PALI PARAISO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1024, "nombre": "Pali Carpintera", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 917, "nombre": "PALI CERVANTES", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1041, "nombre": "PALI GUADALUPE CENTRO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4339, "nombre": "MAXI PALI ATENAS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 749, "nombre": "PALI PACAYAS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4157, "nombre": "PALI VUELTA DE JORCO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4181, "nombre": "PALI PUERTO VIEJO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3096, "nombre": "PALI ESPARZA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 852, "nombre": "PALI OROSI", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 930, "nombre": "MAXI PALI LOS GUIDOS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 1117, "nombre": "PALI CARTAGO ESTE", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 719, "nombre": "MXM HACIENDA VIEJA", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4505, "nombre": "MXM SAN ISIDRO", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 778, "nombre": "MAXI PALI MONTECILLOS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 778, "nombre": "MAXI PALI MONTECILLOS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3081, "nombre": "PALI LOURDES", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3082, "nombre": "PALI SAN BLAS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 918, "nombre": "PALI SAN JUAN", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 3131, "nombre": "PALI TARAS", "tipo": "DXS", "dia_ent": "VIERNES"}, {"pdv": 4241, "nombre": "MXM SAN ANTONIO DESAMPARADOS", "tipo": "DXS", "dia_ent": "VIERNES"}], "mixtas_list": [{"pdv": 4350, "nombre": "MAXI PALI SAN RAFAEL ABAJO", "tipo_unit": "F45X", "placa": "4606"}, {"pdv": 718, "nombre": "MAXI PALI ASERRI", "tipo_unit": "F45X", "placa": "4606"}, {"pdv": 4325, "nombre": "MXM LINCOL", "tipo_unit": "F45X", "placa": "12010"}, {"pdv": 4202, "nombre": "PALI MATA DE PLATANO", "tipo_unit": "F45X", "placa": "12010"}, {"pdv": 3028, "nombre": "MXM SAN GERARDO", "tipo_unit": "BX", "placa": "10520"}, {"pdv": 4461, "nombre": "MAXI PALI SANTA BARBARA", "tipo_unit": "BX", "placa": "10520"}, {"pdv": 3120, "nombre": "PALI SAN JOAQUIN", "tipo_unit": "MX", "placa": "10467"}, {"pdv": 3071, "nombre": "PALI CALLE BLANCOS", "tipo_unit": "MX", "placa": "10467"}, {"pdv": 4470, "nombre": "PALI PALMARES CENTRO", "tipo_unit": "F45X", "placa": "476"}, {"pdv": 4004, "nombre": "MAXI PALI GRECIA", "tipo_unit": "F45X", "placa": "476"}, {"pdv": 3141, "nombre": "PALI SARCHI", "tipo_unit": "PROTOX", "placa": "10410"}, {"pdv": 3068, "nombre": "PALI SAN RAMON", "tipo_unit": "PROTOX", "placa": "10410"}, {"pdv": 4318, "nombre": "MAXI PALI MERCEDES NORTE", "tipo_unit": "BX", "placa": "427"}, {"pdv": 3134, "nombre": "PALI LOS LAGOS", "tipo_unit": "BX", "placa": "427"}, {"pdv": 4426, "nombre": "MXM SAN JOAQUIN", "tipo_unit": "PROTOX", "placa": "12213"}, {"pdv": 4282, "nombre": "PALI EL ROBLE DE ALAJUELA", "tipo_unit": "PROTOX", "placa": "12213"}, {"pdv": 733, "nombre": "MAXI PALI CORONADO", "tipo_unit": "BX", "placa": "824"}, {"pdv": 4064, "nombre": "PALI SAN ANTONIO DE CORONADO", "tipo_unit": "BX", "placa": "824"}, {"pdv": 953, "nombre": "PALI LA CUESTA", "tipo_unit": "MX", "placa": "10524"}, {"pdv": 1037, "nombre": "PALI GOLFITO", "tipo_unit": "MX", "placa": "10524"}, {"pdv": 3094, "nombre": "PALI LIMON", "tipo_unit": "F45X", "placa": "339"}, {"pdv": 3904, "nombre": "MAXI PALI LIMON", "tipo_unit": "F45X", "placa": "339"}, {"pdv": 909, "nombre": "PALI LIMONCITO", "tipo_unit": "CX", "placa": "-"}, {"pdv": 3143, "nombre": "PALI RIO FRIO", "tipo_unit": "CX", "placa": "-"}, {"pdv": 1089, "nombre": "MXM LIBERIA", "tipo_unit": "MX", "placa": "561"}, {"pdv": 1118, "nombre": "Pali Liberia Estadio", "tipo_unit": "MX", "placa": "561"}, {"pdv": 4059, "nombre": "PALI RIO CLARO", "tipo_unit": "BX", "placa": "10530"}, {"pdv": 4003, "nombre": "PALI PALMAR NORTE", "tipo_unit": "BX", "placa": "10530"}, {"pdv": 769, "nombre": "MAXI PALI TAMARINDO", "tipo_unit": "MX", "placa": "2019"}, {"pdv": 4109, "nombre": "MAXI PALI NICOYA", "tipo_unit": "MX", "placa": "2019"}, {"pdv": 3127, "nombre": "PALI QUEPOS", "tipo_unit": "MX", "placa": "2040"}, {"pdv": 3109, "nombre": "PALI PARRITA", "tipo_unit": "MX", "placa": "2040"}, {"pdv": 4256, "nombre": "PALI TIERRA BLANCA", "tipo_unit": "CX", "placa": "-"}, {"pdv": 1005, "nombre": "PALI GUADALUPE CARTAGO", "tipo_unit": "CX", "placa": "-"}, {"pdv": 749, "nombre": "PALI PACAYAS", "tipo_unit": "MX", "placa": "-"}, {"pdv": 4283, "nombre": "MAXI PALI ALAJUELITA", "tipo_unit": "BX", "placa": "-"}, {"pdv": 719, "nombre": "MXM HACIENDA VIEJA", "tipo_unit": "BX", "placa": "-"}, {"pdv": 4505, "nombre": "MXM SAN ISIDRO", "tipo_unit": "F45X", "placa": "-"}, {"pdv": 778, "nombre": "MAXI PALI MONTECILLOS", "tipo_unit": "F45X", "placa": "-"}, {"pdv": 786, "nombre": "PALI LA SUIZA", "tipo_unit": "MX", "placa": "-"}, {"pdv": 925, "nombre": "PALI LOS MOLINOS", "tipo_unit": "MX", "placa": "-"}, {"pdv": 4469, "nombre": "MAXI PALI AGUA CALIENTE", "tipo_unit": "BX", "placa": "-"}, {"pdv": 1021, "nombre": "MAXI PALI CONCEPCIÓN", "tipo_unit": "BX", "placa": "-"}, {"pdv": 751, "nombre": "PALI SAN SEBASTIAN NORTE", "tipo_unit": "MX", "placa": "-"}, {"pdv": 3107, "nombre": "PALI CIUDAD COLON", "tipo_unit": "MX", "placa": "-"}, {"pdv": 3034, "nombre": "MXM PLAZA AMERICA", "tipo_unit": "CX", "placa": "-"}, {"pdv": 743, "nombre": "PALI BARRIO CORAZON DE JESUS", "tipo_unit": "CX", "placa": "-"}, {"pdv": 4281, "nombre": "PALI MERCEDES SUR", "tipo_unit": "MX", "placa": "-"}, {"pdv": 3112, "nombre": "MAXI PALI PACIFICO", "tipo_unit": "MX", "placa": "-"}]}]};</script>
 
 <!-- HEADER -->
 <div style="background:var(--blue)" class="px-4 py-3 flex items-center justify-between shadow-lg sticky top-0 z-30">
@@ -53,14 +48,14 @@
 </div>
 <div class="text-center py-1 text-xs text-gray-400" id="lbl-updated"></div>
 
-<!-- FILTRO POR DIA -->
-<div class="px-4 pt-1 pb-1">
-  <div class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Filtrar por dia de entrega</div>
+<!-- FILTRO POR DIA DE DESPACHO -->
+<div class="px-4 pt-2 pb-0">
+  <span class="text-xs font-bold text-gray-500 uppercase tracking-wide">Dia de despacho</span>
 </div>
-<div class="hscroll" id="day-bar"></div>
+<div class="hscroll mt-1" id="day-bar"></div>
 
 <!-- TABS -->
-<div class="hscroll mt-1" id="tab-bar">
+<div class="hscroll mt-0" id="tab-bar">
   <button class="tab-pill active" onclick="showTab(this,'resumen')">Resumen</button>
   <button class="tab-pill" onclick="showTab(this,'placas')">Placas</button>
   <button class="tab-pill" onclick="showTab(this,'sinplaca')">Sin Placa</button>
@@ -70,54 +65,59 @@
 
 <!-- ═══ RESUMEN ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-resumen" class="tab-panel active px-4 space-y-3 mt-2">
+
+  <!-- KPIs principales -->
   <div class="grid grid-cols-2 gap-3">
     <div class="card p-4">
       <div class="kpi-lbl mb-1">Placas Asignadas</div>
       <div class="kpi-val" style="color:var(--blue)" id="k-placas"></div>
-      <div class="text-xs text-gray-400 mt-1" id="k-placas-sub"></div>
+      <div class="text-xs text-gray-400 mt-1">unidades unicas</div>
     </div>
     <div class="card p-4">
       <div class="kpi-lbl mb-1">Tiendas con Placa</div>
       <div class="kpi-val" style="color:var(--green)" id="k-con"></div>
       <div class="bar mt-2"><div class="bar-fill" style="background:var(--green)" id="pb-con"></div></div>
-      <div class="text-xs text-gray-400 mt-1" id="k-con-sub"></div>
+      <div class="text-xs text-gray-400 mt-1" id="k-con-pct"></div>
     </div>
   </div>
 
+  <!-- Alertas -->
   <div class="grid grid-cols-2 gap-3">
-    <div class="card p-4 warn">
+    <div class="card p-4" style="border-left:4px solid var(--orange)">
       <div class="kpi-lbl mb-1" style="color:#92400e">Sin Placa</div>
       <div class="kpi-val" style="color:var(--orange)" id="k-sin"></div>
-      <div class="text-xs mt-1" style="color:#92400e" id="k-sin-sub"></div>
+      <div class="text-xs text-gray-500 mt-1" id="k-sin-lbl"></div>
     </div>
-    <div class="card p-4 danger">
-      <div class="kpi-lbl mb-1" style="color:#991b1b">Bloqueadas</div>
-      <div class="kpi-val" style="color:var(--red)" id="k-bloq"></div>
-      <div class="text-xs mt-1 text-red-400" id="k-bloq-sub"></div>
+    <div class="card p-4" style="border-left:4px solid var(--yellow)">
+      <div class="kpi-lbl mb-1" style="color:#78350f">Bloqueadas</div>
+      <div class="kpi-val" style="color:#d97706" id="k-bloq"></div>
+      <div class="text-xs text-gray-500 mt-1" id="k-bloq-lbl"></div>
     </div>
   </div>
 
-  <!-- Donut -->
+  <!-- Donut general -->
   <div class="card p-4">
-    <div class="font-bold text-gray-700 text-sm mb-2">Distribucion General</div>
+    <div class="font-bold text-gray-700 text-sm mb-3">Estado General</div>
     <div class="grid grid-cols-2 gap-3 items-center">
-      <div class="chart-wrap" style="height:170px"><canvas id="chart-donut"></canvas></div>
+      <div class="chart-wrap" style="height:160px"><canvas id="chart-donut"></canvas></div>
       <div class="space-y-2" id="donut-legend"></div>
     </div>
   </div>
 
-  <!-- Por tipo -->
+  <!-- Desglose DXD / DXS / DXL -->
   <div class="card p-4">
-    <div class="font-bold text-gray-700 text-sm mb-3">Por Tipo de Entrega</div>
+    <div class="font-bold text-gray-700 text-sm mb-1">% Asignacion por Tipo</div>
+    <div class="text-xs text-gray-400 mb-3" id="tipo-subtitle"></div>
     <div class="chart-wrap"><canvas id="chart-tipo"></canvas></div>
+    <div class="mt-3 space-y-1" id="tipo-legend"></div>
   </div>
 
   <!-- Mixtas -->
   <div class="card p-4" style="border-left:4px solid var(--orange)">
-    <div class="kpi-lbl mb-1" style="color:var(--orange)">Tiendas Mixtas (X)</div>
+    <div class="kpi-lbl mb-1" style="color:var(--orange)">Mixtas (X) — 1 UT para 2 tiendas</div>
     <div class="flex items-baseline gap-2">
       <span class="kpi-val" style="color:var(--orange)" id="k-mixt"></span>
-      <span class="text-xs text-gray-500">registros · 1 UT para 2 tiendas</span>
+      <span class="text-xs text-gray-500">registros</span>
     </div>
   </div>
 </div>
@@ -125,7 +125,7 @@
 <!-- ═══ PLACAS ════════════════════════════════════════════════════════════════ -->
 <div id="tab-placas" class="tab-panel px-4 mt-2">
   <div class="card p-4">
-    <div class="font-bold text-gray-700 text-sm mb-3">Top Placas del Dia</div>
+    <div class="font-bold text-gray-700 text-sm mb-1">Top Placas del Dia</div>
     <div class="text-xs text-gray-400 mb-3">Placas que cubren mas tiendas</div>
     <div id="top-placas-list"></div>
   </div>
@@ -135,10 +135,10 @@
 <div id="tab-sinplaca" class="tab-panel px-4 mt-2">
   <div class="card p-4">
     <div class="flex items-center justify-between mb-2">
-      <div class="font-bold text-gray-700 text-sm">Tiendas Sin Placa</div>
-      <span class="badge" style="background:#fff7ed;color:#c2410c" id="badge-sin"></span>
+      <div class="font-bold text-gray-700 text-sm">Sin Placa Asignada</div>
+      <span class="bdg" style="background:#fff7ed;color:#c2410c" id="badge-sin"></span>
     </div>
-    <div class="text-xs text-gray-400 mb-3">Sin asignacion de unidad</div>
+    <div class="text-xs text-gray-400 mb-3">Tiendas sin unidad asignada aun</div>
     <div id="sinplaca-list"></div>
   </div>
 </div>
@@ -148,7 +148,7 @@
   <div class="card p-4">
     <div class="flex items-center justify-between mb-2">
       <div class="font-bold text-gray-700 text-sm">Tiendas Bloqueadas</div>
-      <span class="badge" style="background:#fef3c7;color:#92400e" id="badge-bloq"></span>
+      <span class="bdg" style="background:#fef3c7;color:#92400e" id="badge-bloq"></span>
     </div>
     <div class="text-xs text-gray-400 mb-3">Marcadas en amarillo — pendiente resolver</div>
     <div id="bloq-list"></div>
@@ -160,7 +160,7 @@
   <div class="card p-4">
     <div class="flex items-center justify-between mb-2">
       <div class="font-bold text-gray-700 text-sm">Tiendas Mixtas</div>
-      <span class="badge" style="background:#fff7ed;color:#c2410c" id="badge-mixt"></span>
+      <span class="bdg" style="background:#fff7ed;color:#c2410c" id="badge-mixt"></span>
     </div>
     <div class="text-xs text-gray-400 mb-3">1 unidad (X) cubre 2 tiendas = 1 UT faltante</div>
     <div id="mixtas-list"></div>
@@ -173,207 +173,270 @@
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString('es-CR');
 
-// ── Estado ────────────────────────────────────────────────────────────────────
-let currentDia = null;  // null = TODOS
-let chartDonut = null;
-let chartTipo  = null;
+let currentFecha = null;
+let chartDonut = null, chartTipo = null;
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 function showTab(btn, name) {
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
   $('tab-'+name).classList.add('active');
   btn.classList.add('active');
-  window.scrollTo({top:60,behavior:'smooth'});
+  window.scrollTo({top:60, behavior:'smooth'});
 }
 
 // ── Seleccionar dia ───────────────────────────────────────────────────────────
-function selectDia(key, btn) {
-  currentDia = key;
-  document.querySelectorAll('.day-pill').forEach(b=>b.classList.remove('active'));
+function selectFecha(fk, btn) {
+  currentFecha = fk;
+  document.querySelectorAll('.day-pill').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   render();
 }
 
-// ── Datos filtrados ───────────────────────────────────────────────────────────
-function getDia() {
-  if(!currentDia) {
-    // Totales agregados
+// ── Obtener datos del dia seleccionado (o todos) ──────────────────────────────
+function getD() {
+  if (!currentFecha) {
+    // Agregar todos los dias
     const all = DATA.dias;
+    const por_tipo = {};
+    all.forEach(d => {
+      Object.entries(d.por_tipo || {}).forEach(([t, v]) => {
+        if (!por_tipo[t]) por_tipo[t] = {total:0,con_placa:0,sin_placa:0,placas:0,pct:0};
+        por_tipo[t].total     += v.total;
+        por_tipo[t].con_placa += v.con_placa;
+        por_tipo[t].sin_placa += v.sin_placa;
+        por_tipo[t].placas    += v.placas;
+      });
+    });
+    // Recalcular pct
+    Object.values(por_tipo).forEach(v => {
+      v.pct = v.total ? Math.round(v.con_placa/v.total*100*10)/10 : 0;
+    });
+    // Top placas global
+    const pm = {};
+    all.forEach(d => (d.top_placas||[]).forEach(p => {
+      pm[p.placa] = (pm[p.placa]||0) + p.tiendas;
+    }));
+    const top_placas = Object.entries(pm)
+      .sort((a,b)=>b[1]-a[1]).slice(0,8)
+      .map(([p,t])=>{return {placa:p,tiendas:t,pdvs:[]}});
     return {
-      label:'TODOS',total:DATA.total.tiendas,con_placa:DATA.total.con_placa,
-      sin_placa:DATA.total.sin_placa,placas:DATA.total.placas,
-      bloqueadas:DATA.total.bloqueadas,mixtas:DATA.total.mixtas,
-      pct_placa:DATA.total.tiendas?Math.round(DATA.total.con_placa/DATA.total.tiendas*100):0,
-      por_tipo:mergePorTipo(all),
-      top_placas:mergeTopPlacas(all),
-      sin_placa_list:all.flatMap(d=>d.sin_placa_list).slice(0,40),
-      bloq_list:all.flatMap(d=>d.bloq_list).slice(0,40),
-      mixtas_list:all.flatMap(d=>d.mixtas_list).slice(0,40),
+      label:'Semana completa',
+      total:    DATA.total.tiendas,
+      con_placa:DATA.total.con_placa,
+      sin_placa:DATA.total.sin_placa,
+      placas:   DATA.total.placas,
+      bloqueadas:DATA.total.bloqueadas,
+      mixtas:   DATA.total.mixtas,
+      pct_placa: DATA.total.tiendas ?
+        Math.round(DATA.total.con_placa/DATA.total.tiendas*100*10)/10 : 0,
+      por_tipo,
+      top_placas,
+      sin_placa_list: all.flatMap(d=>d.sin_placa_list||[]).slice(0,50),
+      bloq_list:      all.flatMap(d=>d.bloq_list||[]).slice(0,50),
+      mixtas_list:    all.flatMap(d=>d.mixtas_list||[]).slice(0,50),
     };
   }
-  return DATA.dias.find(d=>d.key===currentDia) || getDia();
+  return DATA.dias.find(d => d.key===currentFecha) || getD();
 }
 
-function mergePorTipo(dias) {
-  const out={};
-  dias.forEach(d=>Object.entries(d.por_tipo||{}).forEach(([t,v])=>{
-    if(!out[t]) out[t]={total:0,con_placa:0,sin_placa:0,placas:0};
-    out[t].total    += v.total;
-    out[t].con_placa+= v.con_placa;
-    out[t].sin_placa+= v.sin_placa;
-    out[t].placas   += v.placas;
-  }));
-  return out;
-}
-
-function mergeTopPlacas(dias) {
-  const map={};
-  dias.forEach(d=>(d.top_placas||[]).forEach(p=>{
-    if(!map[p.placa]) map[p.placa]={placa:p.placa,tiendas:0};
-    map[p.placa].tiendas += p.tiendas;
-  }));
-  return Object.values(map).sort((a,b)=>b.tiendas-a.tiendas).slice(0,8);
-}
-
-// ── Render principal ──────────────────────────────────────────────────────────
+// ── Render ────────────────────────────────────────────────────────────────────
 function render() {
-  const d = getDia();
-  const pct = d.pct_placa || (d.total?Math.round(d.con_placa/d.total*100):0);
+  const d = getD();
+  const pct = d.pct_placa || 0;
 
   // KPIs
-  $('k-placas').textContent = fmt(d.placas);
-  $('k-placas-sub').textContent = 'placas unicas asignadas';
-  $('k-con').textContent = fmt(d.con_placa);
-  $('pb-con').style.width = pct+'%';
-  $('k-con-sub').textContent = pct+'% de '+fmt(d.total)+' tiendas';
-  $('k-sin').textContent = fmt(d.sin_placa);
-  $('k-sin-sub').textContent = d.sin_placa===0 ? 'Todo asignado' : 'pendientes de unidad';
-  $('k-bloq').textContent = fmt(d.bloqueadas);
-  $('k-bloq-sub').textContent = d.bloqueadas===0 ? 'Sin bloqueos' : 'tiendas en amarillo';
-  $('k-mixt').textContent = fmt(d.mixtas);
+  $('k-placas').textContent  = fmt(d.placas);
+  $('k-con').textContent     = fmt(d.con_placa);
+  $('pb-con').style.width    = pct + '%';
+  $('k-con-pct').textContent = pct + '% de ' + fmt(d.total) + ' tiendas';
+  $('k-sin').textContent     = fmt(d.sin_placa);
+  $('k-sin-lbl').textContent = d.sin_placa === 0 ? 'Todo asignado ✓' : 'sin unidad asignada';
+  $('k-bloq').textContent    = fmt(d.bloqueadas);
+  $('k-bloq-lbl').textContent= d.bloqueadas === 0 ? 'Sin bloqueos ✓' : 'en amarillo';
+  $('k-mixt').textContent    = fmt(d.mixtas);
 
   // Donut
-  const donutData = [d.con_placa, d.sin_placa, d.bloqueadas];
-  const donutLabels = ['Con Placa','Sin Placa','Bloqueadas'];
-  const donutColors = ['#0053e2','#fb923c','#fbbf24'];
-  if(chartDonut) chartDonut.destroy();
+  const donutVals   = [d.con_placa, d.sin_placa, d.bloqueadas];
+  const donutLabels = ['Con Placa', 'Sin Placa', 'Bloqueadas'];
+  const donutColors = ['#0053e2', '#fb923c', '#fbbf24'];
+  if (chartDonut) chartDonut.destroy();
   chartDonut = new Chart($('chart-donut'), {
     type:'doughnut',
-    data:{labels:donutLabels,datasets:[{data:donutData,backgroundColor:donutColors,borderWidth:2,borderColor:'#fff'}]},
+    data:{labels:donutLabels,
+          datasets:[{data:donutVals,backgroundColor:donutColors,borderWidth:2,borderColor:'#fff'}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
               plugins:{legend:{display:false}}}
   });
   $('donut-legend').innerHTML = donutLabels.map((l,i)=>
     `<div class="flex items-center gap-2">
-      <span style="width:11px;height:11px;border-radius:3px;background:${donutColors[i]};flex-shrink:0;display:inline-block"></span>
-      <span class="text-xs text-gray-600">${l}</span>
-      <span class="ml-auto text-xs font-bold">${fmt(donutData[i])}</span>
-    </div>`
+       <span style="width:11px;height:11px;border-radius:3px;background:${donutColors[i]};
+             flex-shrink:0;display:inline-block"></span>
+       <span class="text-xs text-gray-600">${l}</span>
+       <span class="ml-auto text-xs font-bold">${fmt(donutVals[i])}</span>
+     </div>`
   ).join('');
 
-  // Bar por tipo
-  const tipos = Object.entries(d.por_tipo||{}).filter(([t])=>['DXD','DXS'].includes(t));
-  if(chartTipo) chartTipo.destroy();
-  chartTipo = new Chart($('chart-tipo'),{
-    type:'bar',
-    data:{
-      labels:tipos.map(([t])=>t),
-      datasets:[
-        {label:'Con Placa',data:tipos.map(([,v])=>v.con_placa),backgroundColor:'#0053e2',borderRadius:6},
-        {label:'Sin Placa',data:tipos.map(([,v])=>v.sin_placa),backgroundColor:'#fca5a5',borderRadius:6},
-        {label:'Placas Unicas',data:tipos.map(([,v])=>v.placas),backgroundColor:'#bfdbfe',borderRadius:6},
+  // ── Grafica % por tipo (DXD / DXS / DXL) ─────────────────────────────────
+  const tipos = Object.entries(d.por_tipo || {})
+    .filter(([,v]) => v.total > 0)
+    .sort(([a],[b]) => a.localeCompare(b));
+
+  // Subtitulo
+  const tipoNombres = {
+    'DXD':'Dia para el Dia',
+    'DXS':'De Hoy para Mañana',
+    'DXL':'Sabado para Lunes'
+  };
+  $('tipo-subtitle').textContent = tipos.map(([t])=> `${t}: ${tipoNombres[t]||t}`).join(' · ');
+
+  if (chartTipo) chartTipo.destroy();
+  chartTipo = new Chart($('chart-tipo'), {
+    type: 'bar',
+    data: {
+      labels: tipos.map(([t]) => t),
+      datasets: [
+        {label:'Con Placa', data:tipos.map(([,v])=>v.con_placa),
+          backgroundColor:'#0053e2', borderRadius:7},
+        {label:'Sin Placa', data:tipos.map(([,v])=>v.sin_placa),
+          backgroundColor:'#fca5a5', borderRadius:7},
+        {label:'Placas Unicas', data:tipos.map(([,v])=>v.placas),
+          backgroundColor:'#bfdbfe', borderRadius:7},
       ]
     },
-    options:{responsive:true,maintainAspectRatio:false,
+    options:{
+      responsive:true, maintainAspectRatio:false,
       plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11}}}},
-      scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'#f3f4f6'}}}
+      scales:{
+        x:{grid:{display:false}},
+        y:{beginAtZero:true, grid:{color:'#f3f4f6'}}
+      }
     }
   });
 
-  // Top placas
-  const tp = d.top_placas||[];
-  const maxT = tp[0]?tp[0].tiendas:1;
+  // Mini-legend con % de asignacion por tipo
+  $('tipo-legend').innerHTML = tipos.map(([t, v]) => {
+    const colors = {DXD:'#0053e2', DXS:'#2a8703', DXL:'#7c3aed'};
+    const bg     = {DXD:'#eff6ff', DXS:'#f0fdf4', DXL:'#f5f3ff'};
+    const col    = colors[t] || '#374151';
+    const bgcol  = bg[t] || '#f9fafb';
+    return `
+      <div class="pct-card flex items-center gap-3" style="background:${bgcol}">
+        <span class="font-black text-sm" style="color:${col};min-width:36px">${t}</span>
+        <div style="flex:1">
+          <div class="bar" style="background:#e5e7eb">
+            <div class="bar-fill" style="background:${col};width:${v.pct}%"></div>
+          </div>
+        </div>
+        <span class="font-bold text-sm" style="color:${col}">${v.pct}%</span>
+        <span class="text-xs text-gray-500">${v.con_placa}/${v.total}</span>
+      </div>`;
+  }).join('');
+
+  // ── Top placas ────────────────────────────────────────────────────────────
+  const tp = d.top_placas || [];
+  const maxT = tp[0] ? tp[0].tiendas : 1;
   $('top-placas-list').innerHTML = tp.length
-    ? tp.map(p=>`
+    ? tp.map(p => `
         <div class="row">
           <div class="flex items-center justify-between mb-1">
             <span class="font-bold text-sm text-gray-800">Placa ${p.placa}</span>
-            <span class="badge" style="background:#eff6ff;color:#1d4ed8">${p.tiendas} tienda${p.tiendas>1?'s':''}</span>
+            <span class="bdg" style="background:#eff6ff;color:#1d4ed8">
+              ${p.tiendas} tienda${p.tiendas>1?'s':''}
+            </span>
           </div>
-          <div class="bar"><div class="bar-fill" style="background:#0053e2;width:${Math.round(p.tiendas/maxT*100)}%"></div></div>
-          <div class="text-xs text-gray-400 mt-1">PDVs: ${(p.pdvs||[]).join(', ')}</div>
+          <div class="bar">
+            <div class="bar-fill" style="background:#0053e2;width:${Math.round(p.tiendas/maxT*100)}%"></div>
+          </div>
+          ${p.pdvs && p.pdvs.length ?
+            `<div class="text-xs text-gray-400 mt-1">PDVs: ${p.pdvs.join(', ')}</div>` : ''}
         </div>`).join('')
-    : '<div class="text-sm text-gray-400 text-center py-4">Sin datos</div>';
+    : '<div class="text-sm text-gray-400 text-center py-4">Sin datos para este dia</div>';
 
-  // Sin placa
-  const sl = d.sin_placa_list||[];
-  $('badge-sin').textContent = d.sin_placa+' tiendas';
+  // ── Sin placa ────────────────────────────────────────────────────────────
+  const sl = d.sin_placa_list || [];
+  $('badge-sin').textContent = d.sin_placa + ' tiendas';
   $('sinplaca-list').innerHTML = sl.length
-    ? sl.map(e=>`
+    ? sl.map(e => `
         <div class="row flex items-center gap-3">
-          <span class="badge" style="background:#fff7ed;color:#c2410c;min-width:54px;text-align:center">${e.pdv}</span>
-          <div>
-            <div class="text-sm font-medium text-gray-800">${e.nombre}</div>
-            <div class="text-xs text-gray-400">${e.tipo} · ${e.tipo_unit||'-'}</div>
+          <span class="bdg" style="background:#fff7ed;color:#c2410c;min-width:52px;text-align:center">
+            ${e.pdv}
+          </span>
+          <div style="flex:1;min-width:0">
+            <div class="text-sm font-medium text-gray-800 truncate">${e.nombre}</div>
+            <div class="text-xs text-gray-400">
+              ${e.tipo} · ${e.tipo_unit||'-'} · ${e.dia_ent}
+            </div>
           </div>
-          <span class="ml-auto text-base">📦</span>
+          <span class="text-base flex-shrink-0">📦</span>
         </div>`).join('')
-      + (d.sin_placa>40?`<div class="text-center text-xs text-gray-400 py-2">...y ${d.sin_placa-40} mas</div>`:'')
-    : '<div class="text-sm text-green-600 text-center py-4 font-semibold">Todas las tiendas tienen placa asignada</div>';
+      + (d.sin_placa > 50
+         ? `<div class="text-center text-xs text-gray-400 py-2">...y ${d.sin_placa-50} mas</div>`
+         : '')
+    : '<div class="text-sm text-green-600 font-semibold text-center py-6">✓ Todas tienen placa asignada</div>';
 
-  // Bloqueadas
-  const bl = d.bloq_list||[];
-  $('badge-bloq').textContent = d.bloqueadas+' tiendas';
+  // ── Bloqueadas ───────────────────────────────────────────────────────────
+  const bl = d.bloq_list || [];
+  $('badge-bloq').textContent = d.bloqueadas + ' tiendas';
   $('bloq-list').innerHTML = bl.length
-    ? bl.map(e=>`
+    ? bl.map(e => `
         <div class="row flex items-center gap-3">
-          <span class="badge" style="background:#fef3c7;color:#92400e;min-width:54px;text-align:center">${e.pdv}</span>
-          <div class="text-sm font-medium text-gray-800">${e.nombre}</div>
-          <span class="ml-auto text-base">🔒</span>
+          <span class="bdg" style="background:#fef3c7;color:#92400e;min-width:52px;text-align:center">
+            ${e.pdv}
+          </span>
+          <div style="flex:1;min-width:0">
+            <div class="text-sm font-medium text-gray-800 truncate">${e.nombre}</div>
+            <div class="text-xs text-gray-400">${e.tipo} · ${e.dia_ent}</div>
+          </div>
+          <span class="text-base flex-shrink-0">🔒</span>
         </div>`).join('')
-      + (d.bloqueadas>40?`<div class="text-center text-xs text-gray-400 py-2">...y ${d.bloqueadas-40} mas</div>`:'')
-    : '<div class="text-sm text-green-600 text-center py-4 font-semibold">Sin tiendas bloqueadas</div>';
+      + (d.bloqueadas > 50
+         ? `<div class="text-center text-xs text-gray-400 py-2">...y ${d.bloqueadas-50} mas</div>`
+         : '')
+    : '<div class="text-sm text-green-600 font-semibold text-center py-6">✓ Sin tiendas bloqueadas</div>';
 
-  // Mixtas
-  const ml = d.mixtas_list||[];
-  $('badge-mixt').textContent = d.mixtas+' registros';
+  // ── Mixtas ───────────────────────────────────────────────────────────────
+  const ml = d.mixtas_list || [];
+  $('badge-mixt').textContent = d.mixtas + ' registros';
   $('mixtas-list').innerHTML = ml.length
-    ? ml.map(e=>`
+    ? ml.map(e => `
         <div class="row flex items-center gap-3">
-          <span class="badge" style="background:#fff7ed;color:#c2410c;min-width:54px;text-align:center">${e.pdv}</span>
-          <div>
-            <div class="text-sm font-medium text-gray-800">${e.nombre}</div>
+          <span class="bdg" style="background:#fff7ed;color:#c2410c;min-width:52px;text-align:center">
+            ${e.pdv}
+          </span>
+          <div style="flex:1;min-width:0">
+            <div class="text-sm font-medium text-gray-800 truncate">${e.nombre}</div>
             <div class="text-xs text-gray-400">Tipo: ${e.tipo_unit} · Placa: ${e.placa}</div>
           </div>
-          <span class="ml-auto text-base">🔀</span>
+          <span class="text-base flex-shrink-0">🔀</span>
         </div>`).join('')
-      + (d.mixtas>40?`<div class="text-center text-xs text-gray-400 py-2">...y ${d.mixtas-40} mas</div>`:'')
-    : '<div class="text-sm text-gray-400 text-center py-4">Sin tiendas mixtas</div>';
+      + (d.mixtas > 50
+         ? `<div class="text-center text-xs text-gray-400 py-2">...y ${d.mixtas-50} mas</div>`
+         : '')
+    : '<div class="text-sm text-gray-400 text-center py-6">Sin tiendas mixtas</div>';
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', ()=>{
-  $('lbl-semana').textContent = DATA.semana;
-  $('lbl-updated').textContent = 'Actualizado: '+DATA.updated;
+window.addEventListener('DOMContentLoaded', () => {
+  $('lbl-semana').textContent  = DATA.semana;
+  $('lbl-updated').textContent = 'Actualizado: ' + DATA.updated;
 
-  // Botones de dia
   const dayBar = $('day-bar');
-  const btnTodos = document.createElement('button');
-  btnTodos.className='day-pill active'; btnTodos.textContent='Todos';
-  btnTodos.onclick=()=>{ currentDia=null; document.querySelectorAll('.day-pill').forEach(b=>b.classList.remove('active')); btnTodos.classList.add('active'); render(); };
-  dayBar.appendChild(btnTodos);
 
-  DATA.dias.forEach(d=>{
-    const btn=document.createElement('button');
-    btn.className='day-pill';
-    btn.textContent=d.label;
-    // Resaltar dia con problemas
-    if(d.sin_placa>0||d.bloqueadas>0) {
-      btn.style.borderColor='#fbbf24';
-      btn.textContent=d.label+(d.sin_placa>0?' ⚠️':'');
-    }
-    btn.onclick=()=>selectDia(d.key,btn);
+  // Boton TODOS
+  const btnAll = document.createElement('button');
+  btnAll.className = 'day-pill active';
+  btnAll.textContent = 'Todos';
+  btnAll.onclick = () => { currentFecha=null; document.querySelectorAll('.day-pill').forEach(b=>b.classList.remove('active')); btnAll.classList.add('active'); render(); };
+  dayBar.appendChild(btnAll);
+
+  // Un boton por fecha
+  DATA.dias.forEach(d => {
+    const btn = document.createElement('button');
+    const hasIssue = d.sin_placa > 0 || d.bloqueadas > 0;
+    btn.className = 'day-pill' + (hasIssue ? ' warn' : '');
+    btn.textContent = d.label + (hasIssue ? ' ⚠' : '');
+    btn.onclick = () => selectFecha(d.key, btn);
     dayBar.appendChild(btn);
   });
 
