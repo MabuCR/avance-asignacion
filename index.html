@@ -6,6 +6,7 @@
 <title>Avance Asignacion CEDI</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
 *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
 body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
@@ -22,7 +23,7 @@ body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-f
            font-weight:700;cursor:pointer;white-space:nowrap;background:#fff;
            color:#374151;border:1.5px solid #d1d5db;transition:all .18s}
 .day-pill.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.day-pill.warn:not(.active){border-color:#f59e0b;color:#92400e}
+
 .tab-pill{flex-shrink:0;height:42px;padding:0 18px;border-radius:99px;font-size:.8rem;
            font-weight:700;cursor:pointer;white-space:nowrap;border:none;transition:all .18s}
 .tab-pill.active{background:var(--blue);color:#fff}
@@ -60,7 +61,6 @@ body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-f
   <button class="tab-pill" onclick="showTab(this,'placas')">Placas</button>
   <button class="tab-pill" onclick="showTab(this,'sinplaca')">Sin Placa</button>
   <button class="tab-pill" onclick="showTab(this,'bloqueadas')">Bloqueadas</button>
-  <button class="tab-pill" onclick="showTab(this,'mixtas')">Mixtas</button>
 </div>
 
 <!-- ═══ RESUMEN ═══════════════════════════════════════════════════════════════ -->
@@ -112,15 +112,7 @@ body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-f
     <div class="mt-3 space-y-1" id="tipo-legend"></div>
   </div>
 
-  <!-- Mixtas -->
-  <div class="card p-4" style="border-left:4px solid var(--orange)">
-    <div class="kpi-lbl mb-1" style="color:var(--orange)">Mixtas (X) — 1 UT para 2 tiendas</div>
-    <div class="flex items-baseline gap-2">
-      <span class="kpi-val" style="color:var(--orange)" id="k-mixt"></span>
-      <span class="text-xs text-gray-500">registros</span>
-    </div>
-  </div>
-</div>
+
 
 <!-- ═══ PLACAS ════════════════════════════════════════════════════════════════ -->
 <div id="tab-placas" class="tab-panel px-4 mt-2">
@@ -155,21 +147,12 @@ body{background:#f0f4ff;font-family:system-ui,-apple-system,sans-serif;-webkit-f
   </div>
 </div>
 
-<!-- ═══ MIXTAS ════════════════════════════════════════════════════════════════ -->
-<div id="tab-mixtas" class="tab-panel px-4 mt-2">
-  <div class="card p-4">
-    <div class="flex items-center justify-between mb-2">
-      <div class="font-bold text-gray-700 text-sm">Tiendas Mixtas</div>
-      <span class="bdg" style="background:#fff7ed;color:#c2410c" id="badge-mixt"></span>
-    </div>
-    <div class="text-xs text-gray-400 mb-3">1 unidad (X) cubre 2 tiendas = 1 UT faltante</div>
-    <div id="mixtas-list"></div>
-  </div>
-</div>
+
 
 <div class="text-center text-xs text-gray-400 mt-6">CEDI Walmart Costa Rica</div>
 
 <script>
+Chart.register(ChartDataLabels);
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString('es-CR');
 
@@ -227,14 +210,14 @@ function getD() {
       sin_placa:DATA.total.sin_placa,
       placas:   DATA.total.placas,
       bloqueadas:DATA.total.bloqueadas,
-      mixtas:   DATA.total.mixtas,
+
       pct_placa: DATA.total.tiendas ?
         Math.round(DATA.total.con_placa/DATA.total.tiendas*100*10)/10 : 0,
       por_tipo,
       top_placas,
       sin_placa_list: all.flatMap(d=>d.sin_placa_list||[]).slice(0,50),
       bloq_list:      all.flatMap(d=>d.bloq_list||[]).slice(0,50),
-      mixtas_list:    all.flatMap(d=>d.mixtas_list||[]).slice(0,50),
+
     };
   }
   return DATA.dias.find(d => d.key===currentFecha) || getD();
@@ -254,7 +237,7 @@ function render() {
   $('k-sin-lbl').textContent = d.sin_placa === 0 ? 'Todo asignado ✓' : 'sin unidad asignada';
   $('k-bloq').textContent    = fmt(d.bloqueadas);
   $('k-bloq-lbl').textContent= d.bloqueadas === 0 ? 'Sin bloqueos ✓' : 'en amarillo';
-  $('k-mixt').textContent    = fmt(d.mixtas);
+
 
   // Donut
   const donutVals   = [d.con_placa, d.sin_placa, d.bloqueadas];
@@ -266,7 +249,9 @@ function render() {
     data:{labels:donutLabels,
           datasets:[{data:donutVals,backgroundColor:donutColors,borderWidth:2,borderColor:'#fff'}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
-              plugins:{legend:{display:false}}}
+              plugins:{legend:{display:false},
+                datalabels:{color:'#000',font:{weight:'bold',size:11},
+                  formatter:(v,ctx)=>v>0?v:'',anchor:'center',align:'center'}}}
   });
   $('donut-legend').innerHTML = donutLabels.map((l,i)=>
     `<div class="flex items-center gap-2">
@@ -306,10 +291,14 @@ function render() {
     },
     options:{
       responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{position:'bottom',labels:{boxWidth:11,font:{size:11}}}},
+      plugins:{
+        legend:{position:'bottom',labels:{boxWidth:11,font:{size:11}}},
+        datalabels:{color:'#000',font:{weight:'bold',size:10},anchor:'end',
+          align:'top',formatter:(v)=>v>0?v:''}
+      },
       scales:{
         x:{grid:{display:false}},
-        y:{beginAtZero:true, grid:{color:'#f3f4f6'}}
+        y:{beginAtZero:true,grid:{color:'#f3f4f6'}}
       }
     }
   });
@@ -395,26 +384,7 @@ function render() {
          : '')
     : '<div class="text-sm text-green-600 font-semibold text-center py-6">✓ Sin tiendas bloqueadas</div>';
 
-  // ── Mixtas ───────────────────────────────────────────────────────────────
-  const ml = d.mixtas_list || [];
-  $('badge-mixt').textContent = d.mixtas + ' registros';
-  $('mixtas-list').innerHTML = ml.length
-    ? ml.map(e => `
-        <div class="row flex items-center gap-3">
-          <span class="bdg" style="background:#fff7ed;color:#c2410c;min-width:52px;text-align:center">
-            ${e.pdv}
-          </span>
-          <div style="flex:1;min-width:0">
-            <div class="text-sm font-medium text-gray-800 truncate">${e.nombre}</div>
-            <div class="text-xs text-gray-400">Tipo: ${e.tipo_unit} · Placa: ${e.placa}</div>
-          </div>
-          <span class="text-base flex-shrink-0">🔀</span>
-        </div>`).join('')
-      + (d.mixtas > 50
-         ? `<div class="text-center text-xs text-gray-400 py-2">...y ${d.mixtas-50} mas</div>`
-         : '')
-    : '<div class="text-sm text-gray-400 text-center py-6">Sin tiendas mixtas</div>';
-}
+
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
@@ -433,9 +403,8 @@ window.addEventListener('DOMContentLoaded', () => {
   // Un boton por fecha
   DATA.dias.forEach(d => {
     const btn = document.createElement('button');
-    const hasIssue = d.sin_placa > 0 || d.bloqueadas > 0;
-    btn.className = 'day-pill' + (hasIssue ? ' warn' : '');
-    btn.textContent = d.label + (hasIssue ? ' ⚠' : '');
+    btn.className = 'day-pill';
+    btn.textContent = d.label;
     btn.onclick = () => selectFecha(d.key, btn);
     dayBar.appendChild(btn);
   });
